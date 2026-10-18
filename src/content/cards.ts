@@ -2,7 +2,9 @@
 // right after the card's view count, in the recommendations next to a video
 // on its own line right under the view count (that column is too narrow).
 
+import { setBounded } from '../core/cache';
 import { getRecords, videoIdFromKey, type VideoRecord } from '../core/storage';
+import { isVideoId } from '../shared/protocol';
 import { badgeTooltip, cardBadgeText } from './text';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
@@ -33,8 +35,17 @@ const VIDEO_LINK = 'a[href*="/watch?v="]';
 const BADGE_CLASS = 'local-views-card-badge';
 const LINE_CLASS = 'local-views-card-badge-line';
 
-/** Records loaded so far; null means the video has no views. */
+/**
+ * Records loaded so far; null means the video has no views. A YouTube tab can
+ * stay open for days, so only the most recently loaded records are kept;
+ * evicted ones are loaded again if their card shows up.
+ */
 const records = new Map<string, VideoRecord | null>();
+const MAX_RECORDS = 2000;
+
+function remember(videoId: string, record: VideoRecord | null): void {
+  setBounded(records, videoId, record, MAX_RECORDS);
+}
 const toLoad = new Set<string>();
 let loading = false;
 
@@ -42,7 +53,8 @@ function cardVideoId(card: Element): string | null {
   const link = card.querySelector<HTMLAnchorElement>(VIDEO_LINK);
   if (!link) return null;
   try {
-    return new URL(link.href).searchParams.get('v');
+    const videoId = new URL(link.href).searchParams.get('v');
+    return isVideoId(videoId) ? videoId : null;
   } catch {
     return null;
   }
@@ -64,11 +76,15 @@ function placeBadge(badge: HTMLElement, viewsText: HTMLElement, placement: Place
   }
   const row = viewsText.closest(METADATA_ROW);
   if (!row) return false;
-  if (row.nextElementSibling !== badge) row.after(badge);
-  // YouTube sets the font on the text elements, not on the rows, so copy it.
-  const { fontSize, lineHeight } = getComputedStyle(viewsText);
-  if (badge.style.fontSize !== fontSize) badge.style.fontSize = fontSize;
-  if (badge.style.lineHeight !== lineHeight) badge.style.lineHeight = lineHeight;
+  if (row.nextElementSibling !== badge) {
+    row.after(badge);
+    // YouTube sets the font on the text elements, not on the rows, so copy it.
+    // Only on insert: reading computed styles on every scan can force the
+    // browser to recalculate styles.
+    const { fontSize, lineHeight } = getComputedStyle(viewsText);
+    badge.style.fontSize = fontSize;
+    badge.style.lineHeight = lineHeight;
+  }
   return true;
 }
 
@@ -113,7 +129,7 @@ async function loadRecords(): Promise<void> {
   const ids = [...toLoad];
   toLoad.clear();
   try {
-    for (const [id, record] of await getRecords(ids)) records.set(id, record);
+    for (const [id, record] of await getRecords(ids)) remember(id, record);
   } catch {
     // The extension was reloaded or updated: this orphaned script can no longer read.
     return;
@@ -157,7 +173,7 @@ export function startCardBadges(): void {
     if (area !== 'local') return;
     for (const [key, change] of Object.entries(changes)) {
       const videoId = videoIdFromKey(key);
-      if (videoId) records.set(videoId, (change.newValue as VideoRecord | undefined) ?? null);
+      if (videoId) remember(videoId, (change.newValue as VideoRecord | undefined) ?? null);
     }
     scheduleScan();
   });

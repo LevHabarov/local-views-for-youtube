@@ -4,7 +4,7 @@
 
 import { recordKey, getRecord, recordView, type VideoRecord } from '../core/storage';
 import { ViewTracker, type PlaybackState } from '../core/view-tracker';
-import { MEDIA_EVENT, parseMediaMessage, type MediaMessage } from '../shared/protocol';
+import { isVideoId, MEDIA_EVENT, parseMediaMessage, type MediaMessage } from '../shared/protocol';
 import { hideBadge, isBadgeShown, showBadge } from './badge';
 import { startCardBadges } from './cards';
 
@@ -67,7 +67,8 @@ let pollTimer: number | undefined;
 
 function watchPageVideoId(): string | null {
   if (location.pathname !== '/watch') return null;
-  return new URLSearchParams(location.search).get('v');
+  const videoId = new URLSearchParams(location.search).get('v');
+  return isVideoId(videoId) ? videoId : null;
 }
 
 function renderBadge(): boolean {
