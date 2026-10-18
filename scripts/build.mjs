@@ -1,11 +1,13 @@
-// Builds each content script as a standalone IIFE bundle: Chrome loads
-// content scripts as classic scripts, so they cannot share ES module chunks.
+// Builds each script as a standalone IIFE bundle: Chrome loads content
+// scripts as classic scripts, so they cannot share ES module chunks. The
+// popup's HTML and CSS are static files in public/.
 import { readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { build } from 'vite';
 
 const entries = [
   { name: 'bridge', entry: 'src/bridge/index.ts' },
   { name: 'content', entry: 'src/content/index.ts' },
+  { name: 'popup', entry: 'src/popup/index.ts' },
 ];
 
 rmSync('dist', { recursive: true, force: true });

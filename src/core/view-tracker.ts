@@ -1,14 +1,21 @@
 // Decides when playback counts as a view. Pure logic, no browser APIs.
 //
 // Rules:
-// - A view counts once the video has actually played for `thresholdSec`
-//   (seeking does not add time). Videos shorter than that count when nearly
-//   all of them has played.
+// - A view counts once the video has actually played for the threshold
+//   (seeking does not add time): a number of seconds, or a share of the
+//   video's length. In seconds mode, videos shorter than the threshold count
+//   when nearly all of them has played.
 // - Each playback session counts at most once. A new session starts when a
 //   different video (or the same video loaded anew) plays, after the video
 //   ends (replay), and when it jumps from the end back to the start (loop).
 
-export const DEFAULT_THRESHOLD_SEC = 5;
+export interface ThresholdRule {
+  mode: 'seconds' | 'percent';
+  seconds: number;
+  percent: number;
+}
+
+export const DEFAULT_THRESHOLD: ThresholdRule = { mode: 'seconds', seconds: 5, percent: 30 };
 
 /** Largest gap between two time updates still treated as continuous playback. */
 const MAX_TICK_SEC = 3;
@@ -32,9 +39,10 @@ export class ViewTracker {
   private watchedSec = 0;
   private counted = false;
 
+  /** `threshold` is read on every update, so a settings change applies right away. */
   constructor(
     private readonly onView: () => void,
-    private readonly thresholdSec = DEFAULT_THRESHOLD_SEC,
+    private readonly threshold: () => ThresholdRule = () => DEFAULT_THRESHOLD,
   ) {}
 
   timeUpdate(state: PlaybackState): void {
@@ -97,9 +105,10 @@ export class ViewTracker {
   }
 
   private requiredSec(duration: number): number {
-    if (duration > 0 && duration < this.thresholdSec) {
-      return duration * SHORT_VIDEO_SHARE;
-    }
-    return this.thresholdSec;
+    const { mode, seconds, percent } = this.threshold();
+    // Without a known length a share cannot be computed; use the seconds instead.
+    if (mode === 'percent' && duration > 0) return (duration * percent) / 100;
+    if (duration > 0 && duration < seconds) return duration * SHORT_VIDEO_SHARE;
+    return seconds;
   }
 }

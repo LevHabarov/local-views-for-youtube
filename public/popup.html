@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local Views for YouTube</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<!-- Texts come from _locales via data-i18n attributes (see src/popup/index.ts). -->
+<header class="top">
+  <img src="icons/icon32.png" alt="" width="20" height="20">
+  <span class="app-name" data-i18n="extName"></span>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" data-tab="stats" data-i18n="tabStats"></button>
+  <button role="tab" data-tab="search" data-i18n="tabSearch"></button>
+  <button role="tab" data-tab="settings" data-i18n="tabSettings"></button>
+  <button role="tab" data-tab="data" data-i18n="tabData"></button>
+</nav>
+
+<main>
+  <!-- Statistics -->
+  <section id="tab-stats" role="tabpanel" hidden>
+    <div class="tiles">
+      <div class="tile"><b id="stat-views">0</b><span data-i18n="statViews"></span></div>
+      <div class="tile"><b id="stat-videos">0</b><span data-i18n="statVideos"></span></div>
+      <div class="tile"><b id="stat-imported">0</b><span data-i18n="statImported"></span></div>
+    </div>
+    <p class="note" id="stat-since"></p>
+    <p class="empty" id="stats-empty" data-i18n="statsEmpty" hidden></p>
+    <div id="stats-lists">
+      <h2 data-i18n="mostWatched"></h2>
+      <ol class="list" id="list-most"></ol>
+      <h2 data-i18n="recentlyWatched"></h2>
+      <ol class="list" id="list-recent"></ol>
+      <h2 data-i18n="topChannels"></h2>
+      <ol class="list" id="list-channels"></ol>
+    </div>
+  </section>
+
+  <!-- Search -->
+  <section id="tab-search" role="tabpanel" hidden>
+    <input type="search" id="search-input" class="search" data-i18n-placeholder="searchPlaceholder" autocomplete="off">
+    <p class="note" id="search-summary"></p>
+    <ol class="list" id="search-results"></ol>
+  </section>
+
+  <!-- Settings -->
+  <section id="tab-settings" role="tabpanel" hidden>
+    <fieldset>
+      <legend data-i18n="settingThreshold"></legend>
+      <label class="row"><input type="radio" name="thresholdMode" value="seconds">
+        <span data-i18n="thresholdSeconds"></span>
+        <input type="number" id="thresholdSeconds" min="1" max="600" step="1" class="num"></label>
+      <label class="row"><input type="radio" name="thresholdMode" value="percent">
+        <span data-i18n="thresholdPercent"></span>
+        <input type="number" id="thresholdPercent" min="1" max="100" step="1" class="num"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="settingFormat"></legend>
+      <label class="row"><input type="radio" name="format" value="you"><span class="sample" id="sample-you"></span></label>
+      <label class="row"><input type="radio" name="format" value="times"><span class="sample">×3</span></label>
+      <label class="row"><input type="radio" name="format" value="parens"><span class="sample">(3)</span></label>
+      <label class="row"><input type="radio" name="format" value="eye"><span class="sample">👁 3</span></label>
+      <label class="row"><input type="checkbox" id="showZero"><span data-i18n="settingShowZero"></span></label>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="settingColor"></legend>
+      <div class="swatches" id="swatches"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend data-i18n="settingShowOn"></legend>
+      <label class="row"><input type="checkbox" data-surface="watch"><span data-i18n="surfaceWatch"></span></label>
+      <label class="row"><input type="checkbox" data-surface="home"><span data-i18n="surfaceHome"></span></label>
+      <label class="row"><input type="checkbox" data-surface="recommendations"><span data-i18n="surfaceRecommendations"></span></label>
+      <label class="row"><input type="checkbox" data-surface="history"><span data-i18n="surfaceHistory"></span></label>
+    </fieldset>
+    <p class="note" data-i18n="settingsNote"></p>
+  </section>
+
+  <!-- Data -->
+  <section id="tab-data" role="tabpanel" hidden>
+    <div class="card">
+      <h2 data-i18n="backupTitle"></h2>
+      <p class="note" data-i18n="backupText"></p>
+      <div class="buttons">
+        <button id="export" class="primary" data-i18n="exportButton"></button>
+        <label class="button"><span data-i18n="importBackupButton"></span><input type="file" id="import-backup" accept=".json,application/json" hidden></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 data-i18n="takeoutTitle"></h2>
+      <ol class="steps">
+        <li data-i18n="takeoutStep1"></li>
+        <li data-i18n="takeoutStep2"></li>
+        <li data-i18n="takeoutStep3"></li>
+      </ol>
+      <p class="note" id="takeout-note"></p>
+      <div class="buttons">
+        <label class="button primary"><span data-i18n="importTakeoutButton"></span><input type="file" id="import-takeout" accept=".json,application/json" hidden></label>
+      </div>
+    </div>
+
+    <div class="card danger">
+      <h2 data-i18n="clearTitle"></h2>
+      <p class="note" data-i18n="clearText"></p>
+      <div class="buttons">
+        <button id="clear" class="danger-button" data-i18n="clearButton"></button>
+      </div>
+    </div>
+
+    <p class="note"><a href="popup.html" target="_blank" data-i18n="openInTab"></a></p>
+  </section>
+
+  <p class="status" id="status" role="status" hidden></p>
+</main>
+
+<script src="popup.js"></script>
+</body>
+</html>

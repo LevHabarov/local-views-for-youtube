@@ -46,7 +46,7 @@
     }
   },
   "tooltipNone": {
-    "message": "Просмотр засчитывается после 5 секунд воспроизведения"
+    "message": "Вы ещё не смотрели это видео"
   },
   "tooltipDates": {
     "message": "Первый просмотр: $FIRST$\nПоследний просмотр: $LAST$",
@@ -56,6 +56,248 @@
       },
       "last": {
         "content": "$2"
+      }
+    }
+  },
+  "tooltipImported": {
+    "message": "Посчитано расширением: $COUNTED$, из Google Takeout: $IMPORTED$",
+    "placeholders": {
+      "counted": {
+        "content": "$1"
+      },
+      "imported": {
+        "content": "$2"
+      }
+    }
+  },
+  "tabStats": {
+    "message": "Статистика"
+  },
+  "tabSearch": {
+    "message": "Поиск"
+  },
+  "tabSettings": {
+    "message": "Настройки"
+  },
+  "tabData": {
+    "message": "Данные"
+  },
+  "statViews": {
+    "message": "просмотров"
+  },
+  "statVideos": {
+    "message": "видео"
+  },
+  "statImported": {
+    "message": "из Takeout"
+  },
+  "countingSince": {
+    "message": "Учёт ведётся с $DATE$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "statsEmpty": {
+    "message": "Просмотров пока нет. Посмотрите видео несколько секунд или импортируйте историю из Google Takeout на вкладке «Данные»."
+  },
+  "mostWatched": {
+    "message": "Чаще всего"
+  },
+  "recentlyWatched": {
+    "message": "Недавно"
+  },
+  "topChannels": {
+    "message": "Каналы"
+  },
+  "channelVideos": {
+    "message": "видео: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "viewsTooltip": {
+    "message": "Ваши просмотры"
+  },
+  "searchPlaceholder": {
+    "message": "Поиск по названию или каналу"
+  },
+  "searchNothing": {
+    "message": "Ничего не найдено"
+  },
+  "searchFound": {
+    "message": "Видео: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchShownOf": {
+    "message": "Показано $SHOWN$ из $TOTAL$",
+    "placeholders": {
+      "shown": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "deleteConfirm": {
+    "message": "Удалить?"
+  },
+  "settingThreshold": {
+    "message": "Просмотр засчитывается после"
+  },
+  "thresholdSeconds": {
+    "message": "секунд воспроизведения"
+  },
+  "thresholdPercent": {
+    "message": "% длины видео"
+  },
+  "settingFormat": {
+    "message": "Формат счётчика"
+  },
+  "settingShowZero": {
+    "message": "Показывать счётчик у непросмотренных видео"
+  },
+  "settingColor": {
+    "message": "Цвет"
+  },
+  "colorAuto": {
+    "message": "Автоматически: по теме YouTube"
+  },
+  "colorCustom": {
+    "message": "Свой цвет"
+  },
+  "settingShowOn": {
+    "message": "Где показывать счётчик"
+  },
+  "surfaceWatch": {
+    "message": "Под видео"
+  },
+  "surfaceHome": {
+    "message": "Главная страница"
+  },
+  "surfaceRecommendations": {
+    "message": "Рекомендации"
+  },
+  "surfaceHistory": {
+    "message": "История просмотра"
+  },
+  "settingsNote": {
+    "message": "Настройки применяются сразу и синхронизируются с профилем браузера. История просмотров остаётся на этом устройстве."
+  },
+  "backupTitle": {
+    "message": "Резервная копия"
+  },
+  "backupText": {
+    "message": "Сохраните историю в файл, чтобы не потерять её или перенести в другой браузер. Восстановление дополняет текущую историю и не удваивает счётчики."
+  },
+  "exportButton": {
+    "message": "Сохранить в файл"
+  },
+  "exportDone": {
+    "message": "Сохранено видео: $COUNT$.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importBackupButton": {
+    "message": "Восстановить из файла"
+  },
+  "importBackupDone": {
+    "message": "Восстановлено видео: $COUNT$. Пропущено неверных записей: $SKIPPED$.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "skipped": {
+        "content": "$2"
+      }
+    }
+  },
+  "takeoutTitle": {
+    "message": "Импорт из Google Takeout"
+  },
+  "takeoutStep1": {
+    "message": "Откройте takeout.google.com, нажмите «Отменить выбор» и отметьте «YouTube и YouTube Music»."
+  },
+  "takeoutStep2": {
+    "message": "В «Несколько форматов» выберите для истории JSON, а в списке данных YouTube оставьте только историю."
+  },
+  "takeoutStep3": {
+    "message": "Скачайте архив и выберите здесь файл watch-history.json из папки с историей."
+  },
+  "takeoutNote": {
+    "message": "Импортируются только просмотры до $DATE$: более поздние расширение считает само. Новый импорт заменяет предыдущий.",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "importTakeoutButton": {
+    "message": "Выбрать watch-history.json"
+  },
+  "importTakeoutDone": {
+    "message": "Импортировано просмотров: $VIEWS$ (видео: $VIDEOS$). Пропущено просмотров после начала учёта: $AFTER$.",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      },
+      "videos": {
+        "content": "$2"
+      },
+      "after": {
+        "content": "$3"
+      }
+    }
+  },
+  "clearTitle": {
+    "message": "Удаление истории"
+  },
+  "clearText": {
+    "message": "Удаляет все просмотры, включая импортированные. Учёт начнётся заново. Если история может пригодиться, сначала сохраните копию."
+  },
+  "clearButton": {
+    "message": "Удалить всю историю"
+  },
+  "clearConfirm": {
+    "message": "Нажмите ещё раз для удаления"
+  },
+  "clearDone": {
+    "message": "История удалена."
+  },
+  "openInTab": {
+    "message": "Открыть во вкладке"
+  },
+  "working": {
+    "message": "Обработка…"
+  },
+  "errorNotJson": {
+    "message": "Этот файл не в формате JSON."
+  },
+  "errorNotBackup": {
+    "message": "Это не резервная копия Local Views."
+  },
+  "errorNewerVersion": {
+    "message": "Эта копия сделана более новой версией расширения. Сначала обновите расширение."
+  },
+  "errorNotTakeout": {
+    "message": "Это не история просмотра YouTube из Google Takeout. Выберите watch-history.json, выгруженный в формате JSON."
+  },
+  "errorGeneric": {
+    "message": "Что-то пошло не так: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
       }
     }
   }

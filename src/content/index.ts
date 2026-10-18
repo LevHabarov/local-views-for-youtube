@@ -2,24 +2,62 @@
 // events, stores them, and keeps the badges on the watch page and on video
 // cards up to date.
 
-import { recordKey, getRecord, recordView, type VideoRecord } from '../core/storage';
+import {
+  getRecord,
+  getTrackingSince,
+  recordKey,
+  recordView,
+  type VideoRecord,
+} from '../core/storage';
 import { ViewTracker, type PlaybackState } from '../core/view-tracker';
 import { isVideoId, MEDIA_EVENT, parseMediaMessage, type MediaMessage } from '../shared/protocol';
+import {
+  DEFAULT_SETTINGS,
+  loadSettings,
+  onSettingsChanged,
+  type Settings,
+} from '../shared/settings';
 import { hideBadge, isBadgeShown, showBadge } from './badge';
-import { startCardBadges } from './cards';
+import { setCardSettings, startCardBadges } from './cards';
+import { badgeContent } from './text';
+
+// ---- Settings -------------------------------------------------------------
+
+let settings: Settings = DEFAULT_SETTINGS;
+
+/** A custom badge color overrides the theme-aware default in styles.css. */
+function applyColor(): void {
+  const style = document.documentElement.style;
+  if (settings.color) style.setProperty('--local-views-color', settings.color);
+  else style.removeProperty('--local-views-color');
+}
+
+function applySettings(newSettings: Settings): void {
+  settings = newSettings;
+  applyColor();
+  setCardSettings(settings);
+  if (shownVideoId) renderBadge();
+}
 
 // ---- Counting -------------------------------------------------------------
 
 let lastMessage: MediaMessage | null = null;
 
-const tracker = new ViewTracker(() => {
-  const message = lastMessage;
-  if (!message) return;
-  recordView(message.videoId, { title: message.title, channel: message.channel }).catch(
-    // The extension was reloaded or updated: this orphaned script can no longer write.
-    () => undefined,
-  );
-});
+const tracker = new ViewTracker(
+  () => {
+    const message = lastMessage;
+    if (!message) return;
+    recordView(message.videoId, { title: message.title, channel: message.channel }).catch(
+      // The extension was reloaded or updated: this orphaned script can no longer write.
+      () => undefined,
+    );
+  },
+  () => ({
+    mode: settings.thresholdMode,
+    seconds: settings.thresholdSeconds,
+    percent: settings.thresholdPercent,
+  }),
+);
 
 function playbackState(message: MediaMessage): PlaybackState {
   return {
@@ -72,7 +110,8 @@ function watchPageVideoId(): string | null {
 }
 
 function renderBadge(): boolean {
-  return showBadge(shownRecord);
+  const content = settings.showOn.watch ? badgeContent(settings, shownRecord, 'watch') : null;
+  return showBadge(content);
 }
 
 /** YouTube renders the page lazily, so retry until the anchor appears. */
@@ -124,6 +163,12 @@ document.addEventListener('yt-navigate-start', () => {
 document.addEventListener('yt-navigate-finish', () => void onPageChange());
 document.addEventListener('DOMContentLoaded', () => void onPageChange());
 
-// ---- Video cards ----------------------------------------------------------
+// ---- Start ----------------------------------------------------------------
 
 startCardBadges();
+onSettingsChanged(applySettings);
+loadSettings()
+  .then(applySettings)
+  .catch(() => undefined);
+// Pins the moment counting started, which Takeout imports rely on.
+getTrackingSince().catch(() => undefined);

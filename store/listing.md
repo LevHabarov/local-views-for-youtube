@@ -29,8 +29,13 @@ Hover over it to see when you first and last watched the video.
 
 Your count is on video cards too, on the home page, in recommendations and in your watch history, so videos you have already watched are easy to spot. The counts are blue, so you always know which numbers come from the extension.
 
+Click the extension's icon to see your stats (most watched videos, recently watched, favorite channels), search your history, and change settings: what counts as a view, the counter format and color, and where counters appear.
+
+IMPORT YOUR HISTORY
+Bring years of views over from Google Takeout, so your counts are right from day one. Save your history to a file and restore it at any time.
+
 HOW VIEWS ARE COUNTED
-• A view counts after 5 seconds of real playback. Seeking, pauses and ads don't add time.
+• A view counts after 5 seconds of real playback (you can change this). Seeking, pauses and ads don't add time.
 • Watching again after the video ends, and every round in loop mode, is a new view.
 • Views in background tabs and in the miniplayer count too.
 • Shorts are not counted.
@@ -40,7 +45,7 @@ PRIVATE BY DESIGN
 • No accounts, no servers, no analytics. The extension makes no network requests.
 • Uninstalling the extension deletes all its data.
 
-The extension starts counting from the moment you install it.
+Without an import, the extension starts counting from the moment you install it.
 
 Open source: https://github.com/LevHabarov/local-views-for-youtube
 
@@ -58,8 +63,13 @@ This extension is not affiliated with or endorsed by YouTube or Google.
 
 Ваш счётчик есть и на карточках видео — на главной странице, в рекомендациях и в истории просмотра, так что уже просмотренные видео легко заметить. Счётчики голубые, так что сразу понятно, какие цифры показывает расширение.
 
+По клику на иконку расширения — статистика (самые пересматриваемые видео, недавние, любимые каналы), поиск по истории и настройки: что считать просмотром, формат и цвет счётчика, где его показывать.
+
+ИМПОРТ ИСТОРИИ
+Перенесите годы просмотров из Google Takeout, чтобы счётчики были верными с первого дня. Историю можно сохранить в файл и восстановить в любой момент.
+
 КАК СЧИТАЮТСЯ ПРОСМОТРЫ
-• Просмотр засчитывается после 5 секунд реального воспроизведения. Перемотка, пауза и реклама время не добавляют.
+• Просмотр засчитывается после 5 секунд реального воспроизведения (можно изменить). Перемотка, пауза и реклама время не добавляют.
 • Повтор после окончания и каждый круг в режиме loop — новый просмотр.
 • Просмотры в фоновых вкладках и в мини-плеере тоже учитываются.
 • Shorts не учитываются.
@@ -69,7 +79,7 @@ This extension is not affiliated with or endorsed by YouTube or Google.
 • Никаких аккаунтов, серверов и аналитики. Расширение не делает сетевых запросов.
 • При удалении расширения все его данные удаляются.
 
-Счётчик начинает считать с момента установки расширения.
+Без импорта счётчик начинает считать с момента установки расширения.
 
 Открытый исходный код: https://github.com/LevHabarov/local-views-for-youtube
 
@@ -100,6 +110,9 @@ Shows the user how many times they have personally watched each YouTube video, n
 
 **Permission justification — `storage`:**
 Stores the user's own view count, first and last view time, title and channel of each watched video locally, so the count can be shown when the video is opened again.
+
+**Permission justification — `unlimitedStorage`:**
+Users can import their whole YouTube watch history from Google Takeout, which can hold tens of thousands of videos and exceed the default 10 MB local storage quota. The data still stays on the device.
 
 **Host permission justification — `https://www.youtube.com/*`:**
 The content scripts run on YouTube pages to detect playback of the main video player and to display the personal view count under the video and on video cards on the home page, in recommendations and in the watch history. No other sites are accessed.

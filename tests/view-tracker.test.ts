@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { ViewTracker, type PlaybackState } from '../src/core/view-tracker';
+import { ViewTracker, type PlaybackState, type ThresholdRule } from '../src/core/view-tracker';
 
-function setup(duration = 60) {
+function setup(duration = 60, rule?: ThresholdRule) {
   let views = 0;
-  const tracker = new ViewTracker(() => views++);
+  const tracker = new ViewTracker(() => views++, rule && (() => rule));
   const state = (currentTime: number, sessionKey = 'a:1'): PlaybackState => ({
     sessionKey,
     currentTime,
@@ -109,6 +109,28 @@ describe('ViewTracker', () => {
     play(0, 2.5);
     expect(views()).toBe(0);
     play(2.75, 2.75);
+    expect(views()).toBe(1);
+  });
+
+  it('uses a custom number of seconds', () => {
+    const { play, views } = setup(60, { mode: 'seconds', seconds: 10, percent: 30 });
+    play(0, 9.75);
+    expect(views()).toBe(0);
+    play(10, 10);
+    expect(views()).toBe(1);
+  });
+
+  it('counts a share of the length in percent mode', () => {
+    const { play, views } = setup(100, { mode: 'percent', seconds: 5, percent: 30 });
+    play(0, 29.75);
+    expect(views()).toBe(0);
+    play(30, 30);
+    expect(views()).toBe(1);
+  });
+
+  it('falls back to seconds when the length is unknown in percent mode', () => {
+    const { play, views } = setup(0, { mode: 'percent', seconds: 5, percent: 30 });
+    play(0, 5);
     expect(views()).toBe(1);
   });
 });

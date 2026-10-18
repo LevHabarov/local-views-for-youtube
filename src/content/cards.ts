@@ -5,27 +5,33 @@
 import { setBounded } from '../core/cache';
 import { getRecords, videoIdFromKey, type VideoRecord } from '../core/storage';
 import { isVideoId } from '../shared/protocol';
-import { badgeTooltip, cardBadgeText } from './text';
+import { DEFAULT_SETTINGS, type Settings, type Surface } from '../shared/settings';
+import { badgeContent } from './text';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
 // A card's metadata line is "[icon] 547K • 3 years ago": the view count is the
 // text right after the leading (eye) icon.
 type Placement = 'inline' | 'line';
 
-const CARDS: { selector: string; placement: Placement }[] = [
+const CARDS: { surface: Surface; selector: string; placement: Placement }[] = [
   {
+    surface: 'home',
     selector: 'ytd-browse[page-subtype="home"] ytd-rich-item-renderer yt-lockup-view-model',
     placement: 'inline',
   },
   {
+    surface: 'history',
     selector: 'ytd-browse[page-subtype="history"] yt-lockup-view-model',
     placement: 'inline',
   },
   {
+    surface: 'recommendations',
     selector: 'ytd-watch-next-secondary-results-renderer yt-lockup-view-model',
     placement: 'line',
   },
 ];
+
+let settings: Settings = DEFAULT_SETTINGS;
 const VIEWS_TEXT =
   '.ytContentMetadataViewModelLeadingIcon + .ytContentMetadataViewModelMetadataText';
 const METADATA_ROW = '.ytContentMetadataViewModelMetadataRow';
@@ -94,10 +100,14 @@ function createBadge(placement: Placement): HTMLElement {
   return badge;
 }
 
-function updateCard(card: Element, placement: Placement): void {
-  const videoId = cardVideoId(card);
+function updateCard(card: Element, placement: Placement, enabled: boolean): void {
   let badge = card.querySelector<HTMLElement>('.' + BADGE_CLASS);
+  if (!enabled) {
+    badge?.remove();
+    return;
+  }
 
+  const videoId = cardVideoId(card);
   const viewsText = card.querySelector<HTMLElement>(VIEWS_TEXT);
   // Wait until the record is loaded so the badge never shows a wrong count.
   if (!videoId || !viewsText || !records.has(videoId)) {
@@ -105,7 +115,11 @@ function updateCard(card: Element, placement: Placement): void {
     badge?.remove();
     return;
   }
-  const record = records.get(videoId) ?? null;
+  const content = badgeContent(settings, records.get(videoId) ?? null, 'card');
+  if (!content) {
+    badge?.remove();
+    return;
+  }
 
   if (badge && badge.classList.contains(LINE_CLASS) !== (placement === 'line')) {
     badge.remove();
@@ -117,10 +131,8 @@ function updateCard(card: Element, placement: Placement): void {
     return;
   }
 
-  const text = cardBadgeText(record);
-  if (badge.textContent !== text) badge.textContent = text;
-  const tooltip = badgeTooltip(record);
-  if (badge.title !== tooltip) badge.title = tooltip;
+  if (badge.textContent !== content.text) badge.textContent = content.text;
+  if (badge.title !== content.tooltip) badge.title = content.tooltip;
 }
 
 async function loadRecords(): Promise<void> {
@@ -140,8 +152,9 @@ async function loadRecords(): Promise<void> {
 }
 
 function scan(): void {
-  for (const { selector, placement } of CARDS) {
-    for (const card of document.querySelectorAll(selector)) updateCard(card, placement);
+  for (const { surface, selector, placement } of CARDS) {
+    const enabled = settings.showOn[surface];
+    for (const card of document.querySelectorAll(selector)) updateCard(card, placement, enabled);
   }
   void loadRecords();
 }
@@ -158,6 +171,11 @@ function scheduleScan(): void {
     scanTimer = undefined;
     scan();
   }, SCAN_INTERVAL_MS);
+}
+
+export function setCardSettings(newSettings: Settings): void {
+  settings = newSettings;
+  scheduleScan();
 }
 
 export function startCardBadges(): void {

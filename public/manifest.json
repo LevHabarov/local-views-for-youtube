@@ -13,18 +13,39 @@
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "__MSG_extName__",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "permissions": [
+    "storage",
+    "unlimitedStorage"
+  ],
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["bridge.js"],
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "bridge.js"
+      ],
       "run_at": "document_start",
       "world": "MAIN"
     },
     {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["content.js"],
-      "css": ["styles.css"],
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ],
       "run_at": "document_start"
     }
   ]

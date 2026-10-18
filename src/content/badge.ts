@@ -1,7 +1,6 @@
 // The "You: N views" label under the video on the watch page.
 
-import type { VideoRecord } from '../core/storage';
-import { badgeTooltip, watchBadgeText } from './text';
+import type { BadgeContent } from './text';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
 //
@@ -68,7 +67,7 @@ function placeBadge(badge: HTMLElement): boolean {
 }
 
 let badge: HTMLElement | null = null;
-let shownRecord: VideoRecord | null = null;
+let shownContent: BadgeContent | null = null;
 
 // YouTube re-renders the info line (for example when the view count or the
 // layout changes), which can drop the badge or leave it in the wrong place.
@@ -79,7 +78,7 @@ let restoreTimer: number | undefined;
 const observer = new MutationObserver(() => {
   window.clearTimeout(restoreTimer);
   restoreTimer = window.setTimeout(() => {
-    if (badge) showBadge(shownRecord);
+    if (shownContent) showBadge(shownContent);
   }, RESTORE_DELAY_MS);
 });
 let observedContainer: Element | null = null;
@@ -92,11 +91,16 @@ function observe(container: Element | null): void {
 }
 
 /**
- * Shows the badge for the given record and keeps it in place while YouTube
- * re-renders the page. Returns false when the info line is not in the DOM yet.
+ * Shows the badge with the given content (null: no badge) and keeps it in
+ * place while YouTube re-renders the page. Returns false when the info line
+ * is not in the DOM yet.
  */
-export function showBadge(record: VideoRecord | null): boolean {
-  shownRecord = record;
+export function showBadge(content: BadgeContent | null): boolean {
+  shownContent = content;
+  if (!content) {
+    badge?.remove();
+    return true;
+  }
   if (!badge) {
     badge = document.createElement('span');
     badge.className = BADGE_CLASS;
@@ -104,10 +108,8 @@ export function showBadge(record: VideoRecord | null): boolean {
   observe(document.querySelector(INFO_CONTAINER));
   if (!placeBadge(badge)) return false;
 
-  const text = watchBadgeText(record);
-  if (badge.textContent !== text) badge.textContent = text;
-  const tooltip = badgeTooltip(record);
-  if (badge.title !== tooltip) badge.title = tooltip;
+  if (badge.textContent !== content.text) badge.textContent = content.text;
+  if (badge.title !== content.tooltip) badge.title = content.tooltip;
   return true;
 }
 
@@ -116,6 +118,7 @@ export function isBadgeShown(): boolean {
 }
 
 export function hideBadge(): void {
+  shownContent = null;
   observe(null);
   window.clearTimeout(restoreTimer);
   badge?.remove();

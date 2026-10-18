@@ -58,7 +58,7 @@
     }
   },
   "tooltipNone": {
-    "message": "A view counts after 5 seconds of playback",
+    "message": "You haven't watched this video yet",
     "description": "Tooltip on the badge when the video has no views yet."
   },
   "tooltipDates": {
@@ -72,6 +72,249 @@
       "last": {
         "content": "$2",
         "example": "Oct 20, 2026, 9:40 AM"
+      }
+    }
+  },
+  "tooltipImported": {
+    "message": "Counted by the extension: $COUNTED$, from Google Takeout: $IMPORTED$",
+    "description": "Tooltip line when some views were imported from Takeout.",
+    "placeholders": {
+      "counted": {
+        "content": "$1"
+      },
+      "imported": {
+        "content": "$2"
+      }
+    }
+  },
+  "tabStats": {
+    "message": "Stats"
+  },
+  "tabSearch": {
+    "message": "Search"
+  },
+  "tabSettings": {
+    "message": "Settings"
+  },
+  "tabData": {
+    "message": "Data"
+  },
+  "statViews": {
+    "message": "views"
+  },
+  "statVideos": {
+    "message": "videos"
+  },
+  "statImported": {
+    "message": "from Takeout"
+  },
+  "countingSince": {
+    "message": "Counting since $DATE$",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "statsEmpty": {
+    "message": "No views yet. Watch a video for a few seconds, or import your history from Google Takeout on the Data tab."
+  },
+  "mostWatched": {
+    "message": "Most watched"
+  },
+  "recentlyWatched": {
+    "message": "Recently watched"
+  },
+  "topChannels": {
+    "message": "Channels"
+  },
+  "channelVideos": {
+    "message": "$COUNT$ videos",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "viewsTooltip": {
+    "message": "Your views"
+  },
+  "searchPlaceholder": {
+    "message": "Search by title or channel"
+  },
+  "searchNothing": {
+    "message": "Nothing found"
+  },
+  "searchFound": {
+    "message": "Videos: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "searchShownOf": {
+    "message": "Showing $SHOWN$ of $TOTAL$",
+    "placeholders": {
+      "shown": {
+        "content": "$1"
+      },
+      "total": {
+        "content": "$2"
+      }
+    }
+  },
+  "deleteConfirm": {
+    "message": "Delete?"
+  },
+  "settingThreshold": {
+    "message": "A view counts after"
+  },
+  "thresholdSeconds": {
+    "message": "seconds of playback"
+  },
+  "thresholdPercent": {
+    "message": "% of the video"
+  },
+  "settingFormat": {
+    "message": "Counter format"
+  },
+  "settingShowZero": {
+    "message": "Show the counter for unwatched videos"
+  },
+  "settingColor": {
+    "message": "Color"
+  },
+  "colorAuto": {
+    "message": "Automatic: follows the YouTube theme"
+  },
+  "colorCustom": {
+    "message": "Your color"
+  },
+  "settingShowOn": {
+    "message": "Show the counter"
+  },
+  "surfaceWatch": {
+    "message": "Under the video"
+  },
+  "surfaceHome": {
+    "message": "Home page"
+  },
+  "surfaceRecommendations": {
+    "message": "Recommendations"
+  },
+  "surfaceHistory": {
+    "message": "Watch history"
+  },
+  "settingsNote": {
+    "message": "Settings apply right away and sync with your browser profile. Your view history stays on this device."
+  },
+  "backupTitle": {
+    "message": "Backup"
+  },
+  "backupText": {
+    "message": "Save your history to a file to keep it safe or move it to another browser. Restoring adds to the current history and never doubles counts."
+  },
+  "exportButton": {
+    "message": "Save to file"
+  },
+  "exportDone": {
+    "message": "Saved $COUNT$ videos.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "importBackupButton": {
+    "message": "Restore from file"
+  },
+  "importBackupDone": {
+    "message": "Restored $COUNT$ videos. Skipped invalid entries: $SKIPPED$.",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      },
+      "skipped": {
+        "content": "$2"
+      }
+    }
+  },
+  "takeoutTitle": {
+    "message": "Import from Google Takeout"
+  },
+  "takeoutStep1": {
+    "message": "Open takeout.google.com, click \"Deselect all\" and select \"YouTube and YouTube Music\"."
+  },
+  "takeoutStep2": {
+    "message": "In \"Multiple formats\" choose JSON for history, and in \"All YouTube data included\" keep only history."
+  },
+  "takeoutStep3": {
+    "message": "Download the archive and choose the file watch-history.json from its history folder here."
+  },
+  "takeoutNote": {
+    "message": "Only views before $DATE$ are imported: later ones the extension counts itself. A new import replaces the previous one.",
+    "placeholders": {
+      "date": {
+        "content": "$1"
+      }
+    }
+  },
+  "importTakeoutButton": {
+    "message": "Choose watch-history.json"
+  },
+  "importTakeoutDone": {
+    "message": "Imported $VIEWS$ views of $VIDEOS$ videos. Views after counting started, left out: $AFTER$.",
+    "placeholders": {
+      "views": {
+        "content": "$1"
+      },
+      "videos": {
+        "content": "$2"
+      },
+      "after": {
+        "content": "$3"
+      }
+    }
+  },
+  "clearTitle": {
+    "message": "Delete history"
+  },
+  "clearText": {
+    "message": "Deletes all views, including imported ones. Counting starts over. Save a backup first if you may need it."
+  },
+  "clearButton": {
+    "message": "Delete all history"
+  },
+  "clearConfirm": {
+    "message": "Click again to delete"
+  },
+  "clearDone": {
+    "message": "History deleted."
+  },
+  "openInTab": {
+    "message": "Open in a tab"
+  },
+  "working": {
+    "message": "Working…"
+  },
+  "errorNotJson": {
+    "message": "This file is not JSON."
+  },
+  "errorNotBackup": {
+    "message": "This file is not a Local Views backup."
+  },
+  "errorNewerVersion": {
+    "message": "This backup was made by a newer version of the extension. Update it first."
+  },
+  "errorNotTakeout": {
+    "message": "This file is not a YouTube watch history from Google Takeout. Choose watch-history.json exported as JSON."
+  },
+  "errorGeneric": {
+    "message": "Something went wrong: $ERROR$",
+    "placeholders": {
+      "error": {
+        "content": "$1"
       }
     }
   }
