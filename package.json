@@ -20,13 +20,13 @@
   },
   "license": "MIT",
   "author": "levanci",
-  "homepage": "https://github.com/levanci/local-views-for-youtube#readme",
+  "homepage": "https://github.com/LevHabarov/local-views-for-youtube#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/levanci/local-views-for-youtube.git"
+    "url": "git+https://github.com/LevHabarov/local-views-for-youtube.git"
   },
   "bugs": {
-    "url": "https://github.com/levanci/local-views-for-youtube/issues"
+    "url": "https://github.com/LevHabarov/local-views-for-youtube/issues"
   },
   "engines": {
     "node": ">=24"

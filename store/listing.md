@@ -40,7 +40,7 @@ PRIVATE BY DESIGN
 
 The extension starts counting from the moment you install it.
 
-Open source: https://github.com/levanci/local-views-for-youtube
+Open source: https://github.com/LevHabarov/local-views-for-youtube
 
 This extension is not affiliated with or endorsed by YouTube or Google.
 ```
@@ -67,7 +67,7 @@ This extension is not affiliated with or endorsed by YouTube or Google.
 
 Счётчик начинает считать с момента установки расширения.
 
-Открытый исходный код: https://github.com/levanci/local-views-for-youtube
+Открытый исходный код: https://github.com/LevHabarov/local-views-for-youtube
 
 Расширение не связано с YouTube и Google и не одобрено ими.
 ```
@@ -86,8 +86,8 @@ All files are in `store/assets/` (regenerate with `npm run store-assets`).
 
 The screenshots are mockups of the info line under a video, without YouTube branding or other people's videos. Consider adding one real screenshot of the extension on a video page that you have the rights to show.
 
-**Homepage URL:** `https://github.com/levanci/local-views-for-youtube`
-**Support URL:** `https://github.com/levanci/local-views-for-youtube/issues`
+**Homepage URL:** `https://github.com/LevHabarov/local-views-for-youtube`
+**Support URL:** `https://github.com/LevHabarov/local-views-for-youtube/issues`
 
 ## Privacy practices tab
 
@@ -107,7 +107,7 @@ The content scripts run on YouTube watch pages to detect playback of the main vi
 - I do not use or transfer user data for purposes that are unrelated to my item's single purpose.
 - I do not use or transfer user data to determine creditworthiness or for lending purposes.
 
-**Privacy policy URL:** `https://github.com/levanci/local-views-for-youtube/blob/main/PRIVACY.md`
+**Privacy policy URL:** `https://github.com/LevHabarov/local-views-for-youtube/blob/main/PRIVACY.md`
 
 ## Before the first submission
 
