@@ -109,6 +109,14 @@ chrome.storage.onChanged.addListener((changes, area) => {
   renderBadge();
 });
 
-// YouTube is a single-page app: it fires this event after each in-app navigation.
+// YouTube is a single-page app: it fires these events around each in-app
+// navigation. Hide the badge as soon as navigation starts so it never shows
+// the previous video's count while the next page loads.
+document.addEventListener('yt-navigate-start', () => {
+  shownVideoId = null;
+  shownRecord = null;
+  window.clearInterval(pollTimer);
+  hideBadge();
+});
 document.addEventListener('yt-navigate-finish', () => void onPageChange());
 document.addEventListener('DOMContentLoaded', () => void onPageChange());
