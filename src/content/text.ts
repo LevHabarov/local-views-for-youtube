@@ -3,10 +3,10 @@
 import { formatDateTime, viewsMessageKey } from '../core/format';
 import type { VideoRecord } from '../core/storage';
 
-/** "(You: 3 views)" under the video on the watch page. */
+/** "(You: 3 views)" under the video on the watch page; "(You: 0)" if never watched. */
 export function watchBadgeText(record: VideoRecord | null): string {
   const count = record?.count ?? 0;
-  if (count === 0) return '(' + chrome.i18n.getMessage('viewsNone') + ')';
+  if (count === 0) return cardBadgeText(null);
   const key = viewsMessageKey(chrome.i18n.getUILanguage(), count);
   return '(' + chrome.i18n.getMessage(key, String(count)) + ')';
 }

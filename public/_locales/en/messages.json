@@ -7,10 +7,6 @@
     "message": "Shows how many times you have watched each video. Your history stays on your device.",
     "description": "Extension description in the Chrome Web Store, max 132 characters."
   },
-  "viewsNone": {
-    "message": "You haven't watched it yet",
-    "description": "Badge under the video when the user has never watched it."
-  },
   "viewsOne": {
     "message": "You: $COUNT$ view",
     "description": "Badge under the video, plural form 'one'.",
@@ -53,7 +49,7 @@
   },
   "cardViews": {
     "message": "You: $COUNT$",
-    "description": "Badge on video cards (home page, recommendations): the user's view count, shown in parentheses. Also used with 0.",
+    "description": "The user's view count, shown in parentheses: on video cards (home page, recommendations), and under the video when it has not been watched yet (count 0).",
     "placeholders": {
       "count": {
         "content": "$1",
