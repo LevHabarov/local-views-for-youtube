@@ -17,11 +17,21 @@ const INFO_SPANS = ':scope > #info > span';
 const BADGE_CLASS = 'local-views-badge';
 
 const BADGE_STYLE = [
-  'margin-inline: 4px 8px',
   'font-weight: 500',
   'color: var(--yt-spec-text-primary, inherit)',
   'white-space: nowrap',
 ].join(';');
+
+// Gaps around the badge, matching YouTube's own gap between views and date.
+// In the #view-count layout the view count already ends with a gap and the
+// date starts right away. In the #info layout the line has a two-space
+// separator span after the views, so the badge only needs the gap before it.
+const MARGIN_AFTER_VIEW_COUNT = '0 8px';
+const MARGIN_IN_VIEWS_SPAN = '0.5em 0';
+
+function setMargin(badge: HTMLElement, margin: string): void {
+  if (badge.style.marginInline !== margin) badge.style.marginInline = margin;
+}
 
 /** Text the user actually sees in the element, not counting the badge itself. */
 function visibleText(element: HTMLElement, badge: HTMLElement): string {
@@ -41,6 +51,7 @@ function placeBadge(badge: HTMLElement): boolean {
   const viewCount = container.querySelector<HTMLElement>(VIEW_COUNT);
   if (viewCount && visibleText(viewCount, badge) !== '') {
     if (viewCount.nextElementSibling !== badge) viewCount.after(badge);
+    setMargin(badge, MARGIN_AFTER_VIEW_COUNT);
     return true;
   }
 
@@ -53,6 +64,7 @@ function placeBadge(badge: HTMLElement): boolean {
   );
   if (viewsSpan) {
     if (viewsSpan.lastChild !== badge) viewsSpan.append(badge);
+    setMargin(badge, MARGIN_IN_VIEWS_SPAN);
     return true;
   }
 
