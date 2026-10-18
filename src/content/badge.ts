@@ -4,37 +4,54 @@ import { formatDateTime, viewsMessageKey } from '../core/format';
 import type { VideoRecord } from '../core/storage';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
-// Candidates are tried in order. The badge goes right after the total view
-// count, or at the end of the info line if the view count is not found.
-const ANCHOR_SELECTORS: { selector: string; position: 'after' | 'append' }[] = [
-  // Total view count in the line "N views · date" of the description box.
-  { selector: 'ytd-watch-flexy ytd-watch-metadata #info-container > #view-count', position: 'after' },
-  { selector: 'ytd-watch-flexy ytd-watch-metadata #info-container', position: 'append' },
-  // Older layout without the description box.
-  { selector: 'ytd-watch-flexy #info-contents #info', position: 'append' },
-];
+//
+// The line "N views  date" in the description box comes in two layouts:
+// - the view count and date are separate elements (#view-count, #date-text);
+// - those are empty, and the whole line is spans inside #info:
+//   [views] [separator] [date] ...
+// The badge goes right after the view count in either layout.
+const INFO_CONTAINER = 'ytd-watch-flexy ytd-watch-metadata #info-container';
+const VIEW_COUNT = ':scope > #view-count';
+const INFO_SPANS = ':scope > #info > span';
 
 const BADGE_CLASS = 'local-views-badge';
 
 const BADGE_STYLE = [
-  // The view count ends with a space; the date after the badge does not start with one.
-  'margin-inline-end: 8px',
+  'margin-inline: 4px 8px',
   'font-weight: 500',
   'color: var(--yt-spec-text-primary, inherit)',
   'white-space: nowrap',
 ].join(';');
 
+function hasText(element: Element): boolean {
+  return (element.textContent ?? '').trim() !== '';
+}
+
+function insertAfter(anchor: Element, badge: HTMLElement): void {
+  if (anchor.nextElementSibling !== badge) anchor.after(badge);
+}
+
 function placeBadge(badge: HTMLElement): boolean {
-  for (const { selector, position } of ANCHOR_SELECTORS) {
-    const anchor = document.querySelector(selector);
-    if (!anchor) continue;
-    if (position === 'after') {
-      if (anchor.nextElementSibling !== badge) anchor.after(badge);
-    } else if (badge.parentElement !== anchor) {
-      anchor.append(badge);
-    }
+  const container = document.querySelector(INFO_CONTAINER);
+  if (!container) return false;
+
+  const viewCount = container.querySelector(VIEW_COUNT);
+  if (viewCount && hasText(viewCount)) {
+    insertAfter(viewCount, badge);
     return true;
   }
+
+  // YouTube reuses the spans of #info by position when it re-renders the line,
+  // so a span inserted between them would get another span's text. Put the
+  // badge inside the views span instead: a re-render just removes it, and the
+  // observer puts it back.
+  const viewsSpan = [...container.querySelectorAll(INFO_SPANS)].find(hasText);
+  if (viewsSpan) {
+    if (badge.parentElement !== viewsSpan) viewsSpan.append(badge);
+    return true;
+  }
+
+  // The line is not filled in yet; try again on the next update.
   return false;
 }
 
@@ -55,21 +72,47 @@ function badgeTooltip(record: VideoRecord | null): string {
 }
 
 let badge: HTMLElement | null = null;
+let shownRecord: VideoRecord | null = null;
+
+// YouTube re-renders the info line (for example when the view count or the
+// layout changes), which can drop the badge or leave it in the wrong place.
+// Watch the line and put the badge back. Writes below happen only when
+// something actually changed, so our own DOM changes do not loop.
+const RESTORE_DELAY_MS = 100;
+let restoreTimer: number | undefined;
+const observer = new MutationObserver(() => {
+  window.clearTimeout(restoreTimer);
+  restoreTimer = window.setTimeout(() => {
+    if (badge) showBadge(shownRecord);
+  }, RESTORE_DELAY_MS);
+});
+let observedContainer: Element | null = null;
+
+function observe(container: Element | null): void {
+  if (container === observedContainer) return;
+  observer.disconnect();
+  observedContainer = container;
+  if (container) observer.observe(container, { childList: true, subtree: true, characterData: true });
+}
 
 /**
- * Shows the badge for the given record, re-inserting it if YouTube re-rendered
- * the page. Returns false when the anchor is not in the DOM yet.
+ * Shows the badge for the given record and keeps it in place while YouTube
+ * re-renders the page. Returns false when the info line is not in the DOM yet.
  */
 export function showBadge(record: VideoRecord | null): boolean {
+  shownRecord = record;
   if (!badge) {
     badge = document.createElement('span');
     badge.className = BADGE_CLASS;
     badge.style.cssText = BADGE_STYLE;
   }
+  observe(document.querySelector(INFO_CONTAINER));
   if (!placeBadge(badge)) return false;
 
-  badge.textContent = '(' + badgeText(record) + ')';
-  badge.title = badgeTooltip(record);
+  const text = '(' + badgeText(record) + ')';
+  if (badge.textContent !== text) badge.textContent = text;
+  const tooltip = badgeTooltip(record);
+  if (badge.title !== tooltip) badge.title = tooltip;
   return true;
 }
 
@@ -78,5 +121,7 @@ export function isBadgeShown(): boolean {
 }
 
 export function hideBadge(): void {
+  observe(null);
+  window.clearTimeout(restoreTimer);
   badge?.remove();
 }
