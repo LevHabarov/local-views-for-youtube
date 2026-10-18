@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
+    "package": "npm run build && node scripts/package.mjs",
     "icons": "node scripts/gen-icons.mjs",
+    "store-assets": "node scripts/store-assets.mjs",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
@@ -15,5 +17,10 @@
     "typescript": "^7.0.2",
     "vite": "^8.3.4",
     "vitest": "^5.0.5"
+  },
+  "license": "MIT",
+  "author": "levanci",
+  "engines": {
+    "node": ">=24"
   }
 }

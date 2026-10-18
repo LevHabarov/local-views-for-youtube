@@ -1,6 +1,6 @@
 // Builds each content script as a standalone IIFE bundle: Chrome loads
 // content scripts as classic scripts, so they cannot share ES module chunks.
-import { rmSync } from 'node:fs';
+import { readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { build } from 'vite';
 
 const entries = [
@@ -32,4 +32,10 @@ for (const [index, { name, entry }] of entries.entries()) {
   });
 }
 
-console.log('Built extension into dist/');
+// package.json is the single source of the version number.
+const { version } = JSON.parse(readFileSync('package.json', 'utf8'));
+const manifest = JSON.parse(readFileSync('public/manifest.json', 'utf8'));
+manifest.version = version;
+writeFileSync('dist/manifest.json', JSON.stringify(manifest, null, 2) + '\n');
+
+console.log(`Built extension ${version} into dist/`);

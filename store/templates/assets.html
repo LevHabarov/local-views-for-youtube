@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Store assets</title>
+<!-- Rendered by scripts/store-assets.mjs. The asset and language come from
+     the URL hash, e.g. #screenshot-badge/en. Fonts: system UI fonts only. -->
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --card: #272727;
+    --text: #f1f1f1;
+    --muted: #aaaaaa;
+    --accent: #2563eb;
+    --accent-soft: #3b82f6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    background: radial-gradient(ellipse at top left, #1e293b 0%, var(--bg) 60%);
+    color: var(--text);
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .asset { display: none; width: 100%; height: 100%; }
+  .asset.active { display: flex; }
+
+  /* Screenshots: 1280x800 */
+  .shot { flex-direction: column; align-items: center; justify-content: center; gap: 56px; padding: 64px; }
+  .headline { font-size: 52px; font-weight: 700; text-align: center; line-height: 1.15; max-width: 1180px; }
+  .sub { font-size: 24px; color: var(--muted); text-align: center; margin-top: 16px; }
+
+  .watch { width: 1000px; }
+  .player {
+    height: 230px; border-radius: 16px;
+    background: linear-gradient(135deg, #3f3f46, #18181b);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .play { width: 0; height: 0; border-left: 46px solid rgba(255,255,255,.85); border-top: 28px solid transparent; border-bottom: 28px solid transparent; margin-left: 10px; }
+  .title-bar { height: 22px; width: 55%; background: #3f3f3f; border-radius: 6px; margin: 22px 0 18px; }
+  .desc { background: var(--card); border-radius: 14px; padding: 18px 20px; font-size: 22px; font-weight: 500; position: relative; }
+  .desc .line2 { height: 14px; width: 70%; background: #3f3f3f; border-radius: 4px; margin-top: 16px; }
+  .badge {
+    color: #fff; padding: 2px 8px; margin: 0 4px; border-radius: 8px;
+    outline: 3px solid var(--accent-soft); outline-offset: 2px;
+    background: rgba(37, 99, 235, .25);
+  }
+  .muted { color: var(--muted); }
+  .tooltip {
+    position: absolute; left: 230px; top: 64px;
+    background: #616161; color: #fff; font-size: 18px; font-weight: 400;
+    padding: 10px 14px; border-radius: 6px; line-height: 1.5; white-space: pre;
+    box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  }
+
+  .rules { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 1060px; }
+  .rules li { background: var(--card); border-radius: 16px; padding: 26px 28px; font-size: 24px; line-height: 1.35; }
+  .rules b { display: block; font-size: 28px; margin-bottom: 8px; }
+
+  /* Promo tiles */
+  .tile { align-items: center; justify-content: center; gap: 28px; background: linear-gradient(135deg, #1e293b, #020617); }
+  .tile img { width: 120px; height: 120px; }
+  .tile .name { font-size: 34px; font-weight: 700; line-height: 1.1; }
+  .tile .name small { display: block; font-size: 18px; font-weight: 400; color: #cbd5e1; margin-top: 10px; }
+  #promo-small { flex-direction: column; gap: 18px; text-align: center; }
+  #promo-small img { width: 96px; height: 96px; }
+  #promo-small .name { font-size: 30px; }
+  #promo-marquee img { width: 200px; height: 200px; }
+  #promo-marquee .name { font-size: 64px; }
+  #promo-marquee .name small { font-size: 30px; margin-top: 18px; }
+</style>
+</head>
+<body>
+
+<section class="asset shot" id="screenshot-badge">
+  <div>
+    <h1 class="headline" data-t="badgeHeadline"></h1>
+    <p class="sub" data-t="badgeSub"></p>
+  </div>
+  <div class="watch">
+    <div class="player"><div class="play"></div></div>
+    <div class="title-bar"></div>
+    <div class="desc">
+      <span data-t="totalViews"></span>
+      <span class="badge" data-t="badge"></span>
+      <span data-t="date"></span>
+      <div class="line2"></div>
+      <div class="tooltip" data-t="tooltip"></div>
+    </div>
+  </div>
+</section>
+
+<section class="asset shot" id="screenshot-rules">
+  <h1 class="headline" data-t="rulesHeadline"></h1>
+  <ul class="rules">
+    <li><b data-t="rule1Title"></b><span data-t="rule1"></span></li>
+    <li><b data-t="rule2Title"></b><span data-t="rule2"></span></li>
+    <li><b data-t="rule3Title"></b><span data-t="rule3"></span></li>
+    <li><b data-t="rule4Title"></b><span data-t="rule4"></span></li>
+  </ul>
+</section>
+
+<section class="asset tile" id="promo-small">
+  <img src="../../public/icons/icon128.png" alt="">
+  <div class="name">Local Views<small data-t="tagline"></small></div>
+</section>
+
+<section class="asset tile" id="promo-marquee">
+  <img src="../../public/icons/icon128.png" alt="">
+  <div class="name">Local Views for YouTube<small data-t="tagline"></small></div>
+</section>
+
+<script>
+  const TEXT = {
+    en: {
+      badgeHeadline: 'See how many times you watched every video',
+      badgeSub: 'Your own count, right next to the total views',
+      totalViews: '1,234,567 views',
+      badge: '(You: 3 views)',
+      date: '2 years ago',
+      tooltip: 'First view: Mar 2, 2026, 7:05 PM\nLast view: Oct 18, 2026, 9:40 AM',
+      rulesHeadline: 'Honest counting, private by design',
+      rule1Title: '5 seconds = a view',
+      rule1: 'Only real playback counts. Seeking, pauses and ads don’t.',
+      rule2Title: 'Replays count',
+      rule2: 'Watching again after the end, or every round in loop mode, is a new view.',
+      rule3Title: 'Works everywhere you watch',
+      rule3: 'Background tabs and the miniplayer count too.',
+      rule4Title: 'Stays on your device',
+      rule4: 'No accounts, no servers, no tracking. Nothing is sent anywhere.',
+      tagline: 'How many times have you watched it?',
+    },
+    ru: {
+      badgeHeadline: 'Сколько раз вы смотрели каждое видео',
+      badgeSub: 'Ваш личный счётчик — сразу после общего числа просмотров',
+      totalViews: '1 234 567 просмотров',
+      badge: '(Вы: 3 просмотра)',
+      date: '2 года назад',
+      tooltip: 'Первый просмотр: 2 мар. 2026 г., 19:05\nПоследний просмотр: 18 окт. 2026 г., 09:40',
+      rulesHeadline: 'Честный подсчёт и полная приватность',
+      rule1Title: '5 секунд — просмотр',
+      rule1: 'Считается только реальное воспроизведение. Перемотка, пауза и реклама — нет.',
+      rule2Title: 'Повторы считаются',
+      rule2: 'Повтор после окончания и каждый круг в режиме loop — новый просмотр.',
+      rule3Title: 'Везде, где вы смотрите',
+      rule3: 'Фоновые вкладки и мини-плеер тоже учитываются.',
+      rule4Title: 'Только на вашем устройстве',
+      rule4: 'Без аккаунтов, серверов и слежки. Данные никуда не отправляются.',
+      tagline: 'Сколько раз вы это смотрели?',
+    },
+  };
+
+  const [id, lang = 'en'] = location.hash.slice(1).split('/');
+  document.getElementById(id)?.classList.add('active');
+  document.documentElement.lang = lang;
+  for (const element of document.querySelectorAll('[data-t]')) {
+    element.textContent = TEXT[lang][element.dataset.t];
+  }
+</script>
+</body>
+</html>
