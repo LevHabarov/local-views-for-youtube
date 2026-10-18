@@ -4,7 +4,7 @@
   "short_name": "Local Views",
   "homepage_url": "https://github.com/LevHabarov/local-views-for-youtube",
   "description": "__MSG_extDescription__",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "default_locale": "en",
   "minimum_chrome_version": "111",
   "icons": {

@@ -52,6 +52,8 @@
 
 **Chrome Web Store:** скоро.
 
+**Из релиза:** скачайте `local-views-for-youtube-<версия>.zip` в разделе [Releases](https://github.com/LevHabarov/local-views-for-youtube/releases), распакуйте и выполните шаги 2–4 ниже, выбрав распакованную папку.
+
 **Из исходников** (Chrome и Яндекс Браузер; другие браузеры на Chromium тоже должны работать):
 
 1. Соберите расширение (нужен Node.js 24 или новее):

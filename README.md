@@ -52,6 +52,8 @@
 
 **Chrome Web Store:** coming soon.
 
+**From a release:** download `local-views-for-youtube-<version>.zip` from [Releases](https://github.com/LevHabarov/local-views-for-youtube/releases), unzip it, then follow steps 2–4 below with the unzipped folder.
+
 **From source** (Chrome and Yandex Browser; other Chromium-based browsers should work too):
 
 1. Build the extension (Node.js 24 or newer):

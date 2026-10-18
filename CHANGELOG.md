@@ -1,8 +1,8 @@
 # Changelog
 
-## 0.1.0 — unreleased
+## 1.0.0 — 2026-10-18
 
-First version.
+First public release.
 
 - Counts a view after 5 seconds of real playback. Seeking, pauses and ads do not add time.
 - Replays and loops count as new views.
@@ -15,4 +15,5 @@ First version.
 - Backups: save the history to a JSON file and restore it; restoring never doubles counts.
 - Import from Google Takeout (watch-history.json): adds views from before the extension started counting; a new import replaces the previous one.
 - Delete the whole history.
+- After the extension is updated, the old script in already open tabs stops itself and removes its counters until the tab is reloaded.
 - English and Russian interface.

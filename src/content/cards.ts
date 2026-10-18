@@ -6,6 +6,7 @@ import { setBounded } from '../core/cache';
 import { getRecords, videoIdFromKey, type VideoRecord } from '../core/storage';
 import { isVideoId } from '../shared/protocol';
 import { DEFAULT_SETTINGS, type Settings, type Surface } from '../shared/settings';
+import { isAlive, onShutdown } from './lifecycle';
 import { badgeContent } from './text';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
@@ -144,6 +145,7 @@ async function loadRecords(): Promise<void> {
     for (const [id, record] of await getRecords(ids)) remember(id, record);
   } catch {
     // The extension was reloaded or updated: this orphaned script can no longer read.
+    isAlive();
     return;
   } finally {
     loading = false;
@@ -152,6 +154,7 @@ async function loadRecords(): Promise<void> {
 }
 
 function scan(): void {
+  if (!isAlive()) return;
   for (const { surface, selector, placement } of CARDS) {
     const enabled = settings.showOn[surface];
     for (const card of document.querySelectorAll(selector)) updateCard(card, placement, enabled);
@@ -179,7 +182,8 @@ export function setCardSettings(newSettings: Settings): void {
 }
 
 export function startCardBadges(): void {
-  new MutationObserver(scheduleScan).observe(document.documentElement, {
+  const observer = new MutationObserver(scheduleScan);
+  observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
     characterData: true,
@@ -194,6 +198,12 @@ export function startCardBadges(): void {
       if (videoId) remember(videoId, (change.newValue as VideoRecord | undefined) ?? null);
     }
     scheduleScan();
+  });
+
+  onShutdown(() => {
+    observer.disconnect();
+    window.clearTimeout(scanTimer);
+    for (const badge of document.querySelectorAll('.' + BADGE_CLASS)) badge.remove();
   });
 
   scheduleScan();

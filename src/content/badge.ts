@@ -1,5 +1,6 @@
 // The "You: N views" label under the video on the watch page.
 
+import { isAlive, onShutdown } from './lifecycle';
 import type { BadgeContent } from './text';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
@@ -78,10 +79,12 @@ let restoreTimer: number | undefined;
 const observer = new MutationObserver(() => {
   window.clearTimeout(restoreTimer);
   restoreTimer = window.setTimeout(() => {
-    if (shownContent) showBadge(shownContent);
+    if (shownContent && isAlive()) showBadge(shownContent);
   }, RESTORE_DELAY_MS);
 });
 let observedContainer: Element | null = null;
+
+onShutdown(() => hideBadge());
 
 function observe(container: Element | null): void {
   if (container === observedContainer) return;

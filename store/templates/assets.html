@@ -63,6 +63,15 @@
   .card .meta .you { color: #60a5fa; }
   .card.plain .meta .you { display: none; }
 
+  .popups { display: flex; gap: 48px; align-items: flex-start; }
+  .popups img {
+    width: 300px; height: 450px; border-radius: 14px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.08);
+  }
+  .popups img:nth-child(2) { margin-top: 40px; }
+  #screenshot-popup { gap: 40px; }
+  #screenshot-popup .headline { font-size: 46px; }
+
   .rules { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 1060px; }
   .rules li { background: var(--card); border-radius: 16px; padding: 26px 28px; font-size: 24px; line-height: 1.35; }
   .rules b { display: block; font-size: 28px; margin-bottom: 8px; }
@@ -115,6 +124,17 @@
   </div>
 </section>
 
+<section class="asset shot" id="screenshot-popup">
+  <div>
+    <h1 class="headline" data-t="popupHeadline"></h1>
+    <p class="sub" data-t="popupSub"></p>
+  </div>
+  <div class="popups">
+    <img data-popup="stats" alt="">
+    <img data-popup="settings" alt="">
+  </div>
+</section>
+
 <section class="asset shot" id="screenshot-rules">
   <h1 class="headline" data-t="rulesHeadline"></h1>
   <ul class="rules">
@@ -150,8 +170,10 @@
       card2Views: '1.2M', card2Date: '1 month ago',
       card3Views: '48K', card3You: '(You: 1)', card3Date: '5 days ago',
       rulesHeadline: 'Honest counting, private by design',
-      rule1Title: '5 seconds = a view',
-      rule1: 'Only real playback counts. Seeking, pauses and ads don’t.',
+      popupHeadline: 'Stats, search and settings in one click',
+      popupSub: 'Import years of history from Google Takeout and back it up any time',
+      rule1Title: 'Real playback only',
+      rule1: '5 seconds by default, or your own threshold. Seeking, pauses and ads don’t count.',
       rule2Title: 'Replays count',
       rule2: 'Watching again after the end, or every round in loop mode, is a new view.',
       rule3Title: 'Works everywhere you watch',
@@ -173,8 +195,10 @@
       card2Views: '1,2 млн', card2Date: '1 мес. назад',
       card3Views: '48 тыс.', card3You: '(Вы: 1)', card3Date: '5 дн. назад',
       rulesHeadline: 'Честный подсчёт и полная приватность',
-      rule1Title: '5 секунд — просмотр',
-      rule1: 'Считается только реальное воспроизведение. Перемотка, пауза и реклама — нет.',
+      popupHeadline: 'Статистика, поиск и настройки в один клик',
+      popupSub: 'Импорт истории из Google Takeout и резервная копия в любой момент',
+      rule1Title: 'Только реальный просмотр',
+      rule1: 'По умолчанию 5 секунд — или свой порог. Перемотка, пауза и реклама не считаются.',
       rule2Title: 'Повторы считаются',
       rule2: 'Повтор после окончания и каждый круг в режиме loop — новый просмотр.',
       rule3Title: 'Везде, где вы смотрите',
@@ -188,6 +212,9 @@
   const [id, lang = 'en'] = location.hash.slice(1).split('/');
   document.getElementById(id)?.classList.add('active');
   document.documentElement.lang = lang;
+  for (const img of document.querySelectorAll('[data-popup]')) {
+    img.src = `../../docs/images/popup-${img.dataset.popup}-${lang}.png`;
+  }
   for (const element of document.querySelectorAll('[data-t]')) {
     element.textContent = TEXT[lang][element.dataset.t];
   }

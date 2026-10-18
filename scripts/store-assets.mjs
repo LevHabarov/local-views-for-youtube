@@ -17,9 +17,11 @@ const CHROME_CANDIDATES = [
 const ASSETS = [
   { id: 'screenshot-badge', lang: 'en', width: 1280, height: 800 },
   { id: 'screenshot-cards', lang: 'en', width: 1280, height: 800 },
+  { id: 'screenshot-popup', lang: 'en', width: 1280, height: 800 },
   { id: 'screenshot-rules', lang: 'en', width: 1280, height: 800 },
   { id: 'screenshot-badge', lang: 'ru', width: 1280, height: 800 },
   { id: 'screenshot-cards', lang: 'ru', width: 1280, height: 800 },
+  { id: 'screenshot-popup', lang: 'ru', width: 1280, height: 800 },
   { id: 'screenshot-rules', lang: 'ru', width: 1280, height: 800 },
   { id: 'promo-small', lang: 'en', width: 440, height: 280 },
   { id: 'promo-marquee', lang: 'en', width: 1400, height: 560 },

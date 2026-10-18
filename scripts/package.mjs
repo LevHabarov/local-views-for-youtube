@@ -1,8 +1,12 @@
 // Packs dist/ into a zip for upload to the Chrome Web Store.
-// Run `npm run build` first (`npm run package` does both).
+// Run `npm run build` first (`npm run package` does both). Checks the
+// package against the store's rules first (see verify-package.mjs).
 import { readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { crc32, deflateRawSync } from 'node:zlib';
+import { verifyPackage } from './verify-package.mjs';
+
+verifyPackage();
 
 const { name, version } = JSON.parse(readFileSync('package.json', 'utf8'));
 const output = `${name}-${version}.zip`;

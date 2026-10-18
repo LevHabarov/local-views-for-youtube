@@ -19,6 +19,7 @@ import {
 } from '../shared/settings';
 import { hideBadge, isBadgeShown, showBadge } from './badge';
 import { setCardSettings, startCardBadges } from './cards';
+import { isAlive, onShutdown } from './lifecycle';
 import { badgeContent } from './text';
 
 // ---- Settings -------------------------------------------------------------
@@ -67,7 +68,8 @@ function playbackState(message: MediaMessage): PlaybackState {
   };
 }
 
-window.addEventListener(MEDIA_EVENT, (event) => {
+function onMediaEvent(event: Event): void {
+  if (!isAlive()) return;
   const message = parseMediaMessage((event as CustomEvent<unknown>).detail);
   if (!message) return;
 
@@ -92,7 +94,9 @@ window.addEventListener(MEDIA_EVENT, (event) => {
       tracker.interrupt();
       break;
   }
-});
+}
+
+window.addEventListener(MEDIA_EVENT, onMediaEvent);
 
 // ---- Badge ----------------------------------------------------------------
 
@@ -155,15 +159,23 @@ chrome.storage.onChanged.addListener((changes, area) => {
 // navigation. Hide the badge as soon as navigation starts so it never shows
 // the previous video's count while the next page loads.
 document.addEventListener('yt-navigate-start', () => {
+  if (!isAlive()) return;
   shownVideoId = null;
   shownRecord = null;
   window.clearInterval(pollTimer);
   hideBadge();
 });
-document.addEventListener('yt-navigate-finish', () => void onPageChange());
-document.addEventListener('DOMContentLoaded', () => void onPageChange());
+document.addEventListener('yt-navigate-finish', () => isAlive() && void onPageChange());
+document.addEventListener('DOMContentLoaded', () => isAlive() && void onPageChange());
 
 // ---- Start ----------------------------------------------------------------
+
+onShutdown(() => {
+  window.removeEventListener(MEDIA_EVENT, onMediaEvent);
+  window.clearInterval(pollTimer);
+  shownVideoId = null;
+  document.documentElement.style.removeProperty('--local-views-color');
+});
 
 startCardBadges();
 onSettingsChanged(applySettings);

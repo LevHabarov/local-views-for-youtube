@@ -4,7 +4,9 @@ Everything to paste into the [Developer Dashboard](https://chrome.google.com/web
 
 ## Package
 
-`npm run package` → `local-views-for-youtube-<version>.zip`. Upload it on the **Package** tab. Bump `version` in `package.json` before every new upload: the store rejects a version it has already seen.
+`npm run package` → `local-views-for-youtube-<version>.zip`. It first checks the package against the store's rules (name and description length, files the manifest refers to, icon sizes, locales, no remote code); `npm run verify` runs just the check. The same zip is attached to the GitHub release for the version.
+
+Upload it on the **Package** tab. Bump `version` in `package.json` before every new upload: the store rejects a version it has already seen.
 
 ## Store listing tab
 
@@ -93,8 +95,8 @@ All files are in `store/assets/` (regenerate with `npm run store-assets`).
 | Field | File | Size |
 |---|---|---|
 | Store icon | `public/icons/icon128.png` | 128×128 |
-| Screenshots (EN listing) | `screenshot-badge-en.png`, `screenshot-cards-en.png`, `screenshot-rules-en.png` | 1280×800 |
-| Screenshots (RU listing) | `screenshot-badge-ru.png`, `screenshot-cards-ru.png`, `screenshot-rules-ru.png` | 1280×800 |
+| Screenshots (EN listing) | `screenshot-badge-en.png`, `screenshot-cards-en.png`, `screenshot-popup-en.png`, `screenshot-rules-en.png` | 1280×800 |
+| Screenshots (RU listing) | `screenshot-badge-ru.png`, `screenshot-cards-ru.png`, `screenshot-popup-ru.png`, `screenshot-rules-ru.png` | 1280×800 |
 | Small promo tile | `promo-small-en.png` | 440×280 |
 | Marquee promo tile (optional) | `promo-marquee-en.png` | 1400×560 |
 
@@ -126,9 +128,19 @@ The content scripts run on YouTube pages to detect playback of the main video pl
 
 **Privacy policy URL:** `https://github.com/LevHabarov/local-views-for-youtube/blob/main/PRIVACY.md`
 
+## Releasing a version
+
+1. Update `version` in `package.json` and add a section for it to `CHANGELOG.md`.
+2. Commit, then tag and push: `git tag v1.2.3 && git push origin main v1.2.3`.
+3. The Release workflow tests the code, builds and checks the zip, and publishes a GitHub release with the notes from the changelog.
+4. Upload that zip in the Developer Dashboard (**Package** → **Upload new package**) and submit for review.
+
 ## Before the first submission
 
-1. Register a developer account (one-time fee) and turn on 2-Step Verification for the Google account.
-2. Push the repository to GitHub so the privacy policy URL works.
-3. Fill in the publisher contact email and verify it.
-4. Upload the zip, fill in the tabs above, choose visibility (Public or Unlisted) and submit for review.
+1. Register a developer account at the [Developer Dashboard](https://chrome.google.com/webstore/devconsole) (one-time fee) and turn on 2-Step Verification for the Google account.
+2. Fill in the publisher contact email on the **Account** page and verify it.
+3. Create a new item and upload the zip.
+4. **Store listing:** paste the description, set the category, upload the icon, screenshots and promo tiles, and add the homepage and support URLs. Add Russian as a second language with its texts and screenshots.
+5. **Privacy practices:** paste the single purpose, the permission justifications and the privacy policy URL, answer the remote code and data usage questions.
+6. **Distribution:** choose visibility (Public, or Unlisted to try it out first) and the regions.
+7. Submit for review. Reviews usually take from a few days to a couple of weeks; the dashboard shows the status.
