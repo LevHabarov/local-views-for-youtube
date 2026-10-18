@@ -4,30 +4,38 @@ import { formatDateTime, viewsMessageKey } from '../core/format';
 import type { VideoRecord } from '../core/storage';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
-// Candidates are tried in order; the badge is appended to the first match.
-const ANCHOR_SELECTORS = [
-  // Line with the total view count and upload date in the description box.
-  'ytd-watch-flexy ytd-watch-metadata #description-inner #info-container',
-  'ytd-watch-flexy ytd-watch-metadata #info-container',
+// Candidates are tried in order. The badge goes right after the total view
+// count, or at the end of the info line if the view count is not found.
+const ANCHOR_SELECTORS: { selector: string; position: 'after' | 'append' }[] = [
+  // Total view count in the line "N views · date" of the description box.
+  { selector: 'ytd-watch-flexy ytd-watch-metadata #info-container > #view-count', position: 'after' },
+  { selector: 'ytd-watch-flexy ytd-watch-metadata #info-container', position: 'append' },
   // Older layout without the description box.
-  'ytd-watch-flexy #info-contents #info',
+  { selector: 'ytd-watch-flexy #info-contents #info', position: 'append' },
 ];
 
 const BADGE_CLASS = 'local-views-badge';
 
 const BADGE_STYLE = [
-  'margin-inline-start: 8px',
+  // The view count ends with a space; the date after the badge does not start with one.
+  'margin-inline-end: 8px',
   'font-weight: 500',
   'color: var(--yt-spec-text-primary, inherit)',
   'white-space: nowrap',
 ].join(';');
 
-function findAnchor(): Element | null {
-  for (const selector of ANCHOR_SELECTORS) {
-    const element = document.querySelector(selector);
-    if (element) return element;
+function placeBadge(badge: HTMLElement): boolean {
+  for (const { selector, position } of ANCHOR_SELECTORS) {
+    const anchor = document.querySelector(selector);
+    if (!anchor) continue;
+    if (position === 'after') {
+      if (anchor.nextElementSibling !== badge) anchor.after(badge);
+    } else if (badge.parentElement !== anchor) {
+      anchor.append(badge);
+    }
+    return true;
   }
-  return null;
+  return false;
 }
 
 function badgeText(record: VideoRecord | null): string {
@@ -53,17 +61,14 @@ let badge: HTMLElement | null = null;
  * the page. Returns false when the anchor is not in the DOM yet.
  */
 export function showBadge(record: VideoRecord | null): boolean {
-  const anchor = findAnchor();
-  if (!anchor) return false;
-
   if (!badge) {
     badge = document.createElement('span');
     badge.className = BADGE_CLASS;
     badge.style.cssText = BADGE_STYLE;
   }
-  if (badge.parentElement !== anchor) anchor.append(badge);
+  if (!placeBadge(badge)) return false;
 
-  badge.textContent = '· ' + badgeText(record);
+  badge.textContent = '(' + badgeText(record) + ')';
   badge.title = badgeTooltip(record);
   return true;
 }
