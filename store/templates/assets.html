@@ -4,7 +4,9 @@
 <meta charset="utf-8">
 <title>Store assets</title>
 <!-- Rendered by scripts/store-assets.mjs. The asset and language come from
-     the URL hash, e.g. #screenshot-badge/en. Fonts: system UI fonts only. -->
+     the URL hash, e.g. #screenshot-badge/en/1280x800. The size is set
+     explicitly because headless Chrome will not make its window narrower
+     than about 500px, which would push small tiles off center. Fonts: system UI fonts only. -->
 <style>
   :root {
     --bg: #0f0f0f;
@@ -21,7 +23,7 @@
     color: var(--text);
     font-family: "Segoe UI", Roboto, Arial, sans-serif;
   }
-  .asset { display: none; width: 100%; height: 100%; }
+  .asset { display: none; width: 100%; height: 100%; flex-shrink: 0; }
   .asset.active { display: flex; }
 
   /* Screenshots: 1280x800 */
@@ -209,8 +211,17 @@
     },
   };
 
-  const [id, lang = 'en'] = location.hash.slice(1).split('/');
-  document.getElementById(id)?.classList.add('active');
+  const [id, lang = 'en', size] = location.hash.slice(1).split('/');
+  const asset = document.getElementById(id);
+  asset?.classList.add('active');
+  const [width, height] = (size ?? '').split('x').map(Number);
+  if (asset && width && height) {
+    // Pin the page to the asset's exact size, whatever the window is.
+    for (const element of [document.documentElement, document.body, asset]) {
+      element.style.width = width + 'px';
+      element.style.height = height + 'px';
+    }
+  }
   document.documentElement.lang = lang;
   for (const img of document.querySelectorAll('[data-popup]')) {
     img.src = `../../docs/images/popup-${img.dataset.popup}-${lang}.png`;

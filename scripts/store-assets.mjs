@@ -46,7 +46,7 @@ for (const { id, lang, width, height } of ASSETS) {
     '--allow-file-access-from-files',
     `--window-size=${width},${height}`,
     `--screenshot=${output}`,
-    `${template}#${id}/${lang}`,
+    `${template}#${id}/${lang}/${width}x${height}`,
   ], { stdio: 'ignore' });
 
   const png = readFileSync(output);
