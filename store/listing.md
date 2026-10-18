@@ -27,7 +27,7 @@ Ever wondered how many times you've rewatched that one video? Local Views for Yo
 
 Hover over it to see when you first and last watched the video.
 
-Your count is on video cards too, on the home page and in recommendations, so videos you have already watched are easy to spot. The counts are blue, so you always know which numbers come from the extension.
+Your count is on video cards too, on the home page, in recommendations and in your watch history, so videos you have already watched are easy to spot. The counts are blue, so you always know which numbers come from the extension.
 
 HOW VIEWS ARE COUNTED
 • A view counts after 5 seconds of real playback. Seeking, pauses and ads don't add time.
@@ -56,7 +56,7 @@ This extension is not affiliated with or endorsed by YouTube or Google.
 
 Наведите на счётчик, чтобы увидеть даты первого и последнего просмотра.
 
-Ваш счётчик есть и на карточках видео — на главной странице и в рекомендациях, так что уже просмотренные видео легко заметить. Счётчики голубые, так что сразу понятно, какие цифры показывает расширение.
+Ваш счётчик есть и на карточках видео — на главной странице, в рекомендациях и в истории просмотра, так что уже просмотренные видео легко заметить. Счётчики голубые, так что сразу понятно, какие цифры показывает расширение.
 
 КАК СЧИТАЮТСЯ ПРОСМОТРЫ
 • Просмотр засчитывается после 5 секунд реального воспроизведения. Перемотка, пауза и реклама время не добавляют.
@@ -102,7 +102,7 @@ Shows the user how many times they have personally watched each YouTube video, n
 Stores the user's own view count, first and last view time, title and channel of each watched video locally, so the count can be shown when the video is opened again.
 
 **Host permission justification — `https://www.youtube.com/*`:**
-The content scripts run on YouTube pages to detect playback of the main video player and to display the personal view count under the video and on video cards on the home page and in recommendations. No other sites are accessed.
+The content scripts run on YouTube pages to detect playback of the main video player and to display the personal view count under the video and on video cards on the home page, in recommendations and in the watch history. No other sites are accessed.
 
 **Remote code:** No, I am not using remote code. All code is included in the package.
 

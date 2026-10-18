@@ -1,6 +1,6 @@
-// "(You: N)" on every video card: on the home page between the card's view
-// count and upload date, in the recommendations next to a video on its own
-// line right under the view count (that column is too narrow for both).
+// "(You: N)" on every video card: on the home page and in the watch history
+// right after the card's view count, in the recommendations next to a video
+// on its own line right under the view count (that column is too narrow).
 
 import { getRecords, videoIdFromKey, type VideoRecord } from '../core/storage';
 import { badgeTooltip, cardBadgeText } from './text';
@@ -13,6 +13,10 @@ type Placement = 'inline' | 'line';
 const CARDS: { selector: string; placement: Placement }[] = [
   {
     selector: 'ytd-browse[page-subtype="home"] ytd-rich-item-renderer yt-lockup-view-model',
+    placement: 'inline',
+  },
+  {
+    selector: 'ytd-browse[page-subtype="history"] yt-lockup-view-model',
     placement: 'inline',
   },
   {

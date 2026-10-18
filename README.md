@@ -4,7 +4,7 @@ A Chrome extension that shows how many times **you** have watched a YouTube vide
 
 > 445 014 707 views **(You: 13 views)** 21 years ago
 
-Video cards get a short count too: on the home page between the view count and the date ("297K **(You: 3)** • 2 years ago"), and in the recommendations next to a video on its own line under the view count. Videos you haven't watched show "(You: 0)". The counts are blue, so they don't get mixed up with YouTube's own numbers.
+Video cards get a short count too: on the home page and in your watch history right after the view count ("297K **(You: 3)** • 2 years ago"), and in the recommendations next to a video on its own line under the view count. Videos you haven't watched show "(You: 0)". The counts are blue, so they don't get mixed up with YouTube's own numbers.
 
 Your history never leaves your device: it is kept in the browser's local extension storage, and the extension makes no network requests of its own.
 
