@@ -53,7 +53,7 @@
   },
   "cardViews": {
     "message": "You: $COUNT$",
-    "description": "Badge on video cards (home page, recommendations): the user's view count, shown in parentheses.",
+    "description": "Badge on video cards (home page, recommendations): the user's view count, shown in parentheses. Also used with 0.",
     "placeholders": {
       "count": {
         "content": "$1",

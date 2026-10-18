@@ -27,7 +27,7 @@ Ever wondered how many times you've rewatched that one video? Local Views for Yo
 
 Hover over it to see when you first and last watched the video.
 
-Videos you have already watched are easy to spot on the home page and in recommendations: their cards show your count too, between the view count and the upload date. The counts are blue, so you always know which numbers come from the extension.
+Your count is on video cards too, on the home page and in recommendations, so videos you have already watched are easy to spot. The counts are blue, so you always know which numbers come from the extension.
 
 HOW VIEWS ARE COUNTED
 • A view counts after 5 seconds of real playback. Seeking, pauses and ads don't add time.
@@ -56,7 +56,7 @@ This extension is not affiliated with or endorsed by YouTube or Google.
 
 Наведите на счётчик, чтобы увидеть даты первого и последнего просмотра.
 
-Видео, которые вы уже смотрели, легко заметить на главной странице и в рекомендациях: на их карточках тоже есть ваш счётчик, между числом просмотров и датой. Счётчики голубые, так что сразу понятно, какие цифры показывает расширение.
+Ваш счётчик есть и на карточках видео — на главной странице и в рекомендациях, так что уже просмотренные видео легко заметить. Счётчики голубые, так что сразу понятно, какие цифры показывает расширение.
 
 КАК СЧИТАЮТСЯ ПРОСМОТРЫ
 • Просмотр засчитывается после 5 секунд реального воспроизведения. Перемотка, пауза и реклама время не добавляют.

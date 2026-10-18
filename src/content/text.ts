@@ -11,9 +11,9 @@ export function watchBadgeText(record: VideoRecord | null): string {
   return '(' + chrome.i18n.getMessage(key, String(count)) + ')';
 }
 
-/** "(You: 3)" on video cards, where space is short. */
-export function cardBadgeText(record: VideoRecord): string {
-  return '(' + chrome.i18n.getMessage('cardViews', String(record.count)) + ')';
+/** "(You: 3)" on video cards, where space is short; "(You: 0)" if never watched. */
+export function cardBadgeText(record: VideoRecord | null): string {
+  return '(' + chrome.i18n.getMessage('cardViews', String(record?.count ?? 0)) + ')';
 }
 
 export function badgeTooltip(record: VideoRecord | null): string {

@@ -1,6 +1,6 @@
-// "(You: N)" on video cards on the home page and in the recommendations next
-// to a video, between the card's view count and upload date. Shown only for
-// videos the user has watched.
+// "(You: N)" on every video card: on the home page between the card's view
+// count and upload date, in the recommendations next to a video on its own
+// line right under the view count (that column is too narrow for both).
 
 import { getRecords, videoIdFromKey, type VideoRecord } from '../core/storage';
 import { badgeTooltip, cardBadgeText } from './text';
@@ -8,16 +8,26 @@ import { badgeTooltip, cardBadgeText } from './text';
 // YouTube changes its markup often, so every selector we depend on lives here.
 // A card's metadata line is "[icon] 547K • 3 years ago": the view count is the
 // text right after the leading (eye) icon.
-const CARD_SELECTORS = [
-  'ytd-browse[page-subtype="home"] ytd-rich-item-renderer yt-lockup-view-model',
-  'ytd-watch-next-secondary-results-renderer yt-lockup-view-model',
-].join(',');
+type Placement = 'inline' | 'line';
+
+const CARDS: { selector: string; placement: Placement }[] = [
+  {
+    selector: 'ytd-browse[page-subtype="home"] ytd-rich-item-renderer yt-lockup-view-model',
+    placement: 'inline',
+  },
+  {
+    selector: 'ytd-watch-next-secondary-results-renderer yt-lockup-view-model',
+    placement: 'line',
+  },
+];
 const VIEWS_TEXT =
   '.ytContentMetadataViewModelLeadingIcon + .ytContentMetadataViewModelMetadataText';
+const METADATA_ROW = '.ytContentMetadataViewModelMetadataRow';
 const VIDEO_LINK = 'a[href*="/watch?v="]';
 
 // Styled in public/styles.css.
 const BADGE_CLASS = 'local-views-card-badge';
+const LINE_CLASS = 'local-views-card-badge-line';
 
 /** Records loaded so far; null means the video has no views. */
 const records = new Map<string, VideoRecord | null>();
@@ -34,26 +44,58 @@ function cardVideoId(card: Element): string | null {
   }
 }
 
-function updateCard(card: Element): void {
+/**
+ * Puts the badge in place. Returns false if the card has no view count.
+ *
+ * YouTube recycles cards for other videos and rewrites their text.
+ * - inline: the badge is the last child of the view count text, so a rewrite
+ *   either removes it or leaves it after the new text; the next scan fixes it.
+ * - line: the badge is a row of its own right after the view count row. When
+ *   YouTube rebuilds the card it drops the badge, and the next scan adds it back.
+ */
+function placeBadge(badge: HTMLElement, viewsText: HTMLElement, placement: Placement): boolean {
+  if (placement === 'inline') {
+    if (viewsText.lastChild !== badge) viewsText.append(badge);
+    return true;
+  }
+  const row = viewsText.closest(METADATA_ROW);
+  if (!row) return false;
+  if (row.nextElementSibling !== badge) row.after(badge);
+  // YouTube sets the font on the text elements, not on the rows, so copy it.
+  const { fontSize, lineHeight } = getComputedStyle(viewsText);
+  if (badge.style.fontSize !== fontSize) badge.style.fontSize = fontSize;
+  if (badge.style.lineHeight !== lineHeight) badge.style.lineHeight = lineHeight;
+  return true;
+}
+
+function createBadge(placement: Placement): HTMLElement {
+  const badge = document.createElement(placement === 'inline' ? 'span' : 'div');
+  badge.className = placement === 'inline' ? BADGE_CLASS : `${BADGE_CLASS} ${LINE_CLASS}`;
+  return badge;
+}
+
+function updateCard(card: Element, placement: Placement): void {
   const videoId = cardVideoId(card);
   let badge = card.querySelector<HTMLElement>('.' + BADGE_CLASS);
 
-  if (videoId && !records.has(videoId)) toLoad.add(videoId);
-  const record = videoId ? records.get(videoId) : null;
   const viewsText = card.querySelector<HTMLElement>(VIEWS_TEXT);
-  if (!record || !viewsText) {
+  // Wait until the record is loaded so the badge never shows a wrong count.
+  if (!videoId || !viewsText || !records.has(videoId)) {
+    if (videoId && !records.has(videoId)) toLoad.add(videoId);
     badge?.remove();
     return;
   }
+  const record = records.get(videoId) ?? null;
 
-  if (!badge) {
-    badge = document.createElement('span');
-    badge.className = BADGE_CLASS;
+  if (badge && badge.classList.contains(LINE_CLASS) !== (placement === 'line')) {
+    badge.remove();
+    badge = null;
   }
-  // YouTube recycles cards for other videos and rewrites their text. Keeping
-  // the badge inside the view count text, as its last child, means a rewrite
-  // either removes it or leaves it after the new text; the next scan fixes it.
-  if (viewsText.lastChild !== badge) viewsText.append(badge);
+  badge ??= createBadge(placement);
+  if (!placeBadge(badge, viewsText, placement)) {
+    badge.remove();
+    return;
+  }
 
   const text = cardBadgeText(record);
   if (badge.textContent !== text) badge.textContent = text;
@@ -78,7 +120,9 @@ async function loadRecords(): Promise<void> {
 }
 
 function scan(): void {
-  for (const card of document.querySelectorAll(CARD_SELECTORS)) updateCard(card);
+  for (const { selector, placement } of CARDS) {
+    for (const card of document.querySelectorAll(selector)) updateCard(card, placement);
+  }
   void loadRecords();
 }
 

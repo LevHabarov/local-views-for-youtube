@@ -24,3 +24,10 @@ html[dark] {
 .local-views-card-badge {
   margin-inline-start: 0.25em;
 }
+
+/* Own line under the view count in the recommendations; takes the card's
+   metadata font from the surrounding block. */
+.local-views-card-badge-line {
+  display: block;
+  margin-inline-start: 0;
+}
