@@ -1,10 +1,12 @@
 // Isolated-world content script: counts views from the bridge's playback
-// events, stores them, and keeps the badge on the watch page up to date.
+// events, stores them, and keeps the badges on the watch page and on video
+// cards up to date.
 
 import { recordKey, getRecord, recordView, type VideoRecord } from '../core/storage';
 import { ViewTracker, type PlaybackState } from '../core/view-tracker';
 import { MEDIA_EVENT, parseMediaMessage, type MediaMessage } from '../shared/protocol';
 import { hideBadge, isBadgeShown, showBadge } from './badge';
+import { startCardBadges } from './cards';
 
 // ---- Counting -------------------------------------------------------------
 
@@ -120,3 +122,7 @@ document.addEventListener('yt-navigate-start', () => {
 });
 document.addEventListener('yt-navigate-finish', () => void onPageChange());
 document.addEventListener('DOMContentLoaded', () => void onPageChange());
+
+// ---- Video cards ----------------------------------------------------------
+
+startCardBadges();

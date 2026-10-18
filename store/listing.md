@@ -27,6 +27,8 @@ Ever wondered how many times you've rewatched that one video? Local Views for Yo
 
 Hover over it to see when you first and last watched the video.
 
+Videos you have already watched are easy to spot on the home page and in recommendations: their cards show your count too, between the view count and the upload date. The counts are blue, so you always know which numbers come from the extension.
+
 HOW VIEWS ARE COUNTED
 • A view counts after 5 seconds of real playback. Seeking, pauses and ads don't add time.
 • Watching again after the video ends, and every round in loop mode, is a new view.
@@ -54,6 +56,8 @@ This extension is not affiliated with or endorsed by YouTube or Google.
 
 Наведите на счётчик, чтобы увидеть даты первого и последнего просмотра.
 
+Видео, которые вы уже смотрели, легко заметить на главной странице и в рекомендациях: на их карточках тоже есть ваш счётчик, между числом просмотров и датой. Счётчики голубые, так что сразу понятно, какие цифры показывает расширение.
+
 КАК СЧИТАЮТСЯ ПРОСМОТРЫ
 • Просмотр засчитывается после 5 секунд реального воспроизведения. Перемотка, пауза и реклама время не добавляют.
 • Повтор после окончания и каждый круг в режиме loop — новый просмотр.
@@ -79,8 +83,8 @@ All files are in `store/assets/` (regenerate with `npm run store-assets`).
 | Field | File | Size |
 |---|---|---|
 | Store icon | `public/icons/icon128.png` | 128×128 |
-| Screenshots (EN listing) | `screenshot-badge-en.png`, `screenshot-rules-en.png` | 1280×800 |
-| Screenshots (RU listing) | `screenshot-badge-ru.png`, `screenshot-rules-ru.png` | 1280×800 |
+| Screenshots (EN listing) | `screenshot-badge-en.png`, `screenshot-cards-en.png`, `screenshot-rules-en.png` | 1280×800 |
+| Screenshots (RU listing) | `screenshot-badge-ru.png`, `screenshot-cards-ru.png`, `screenshot-rules-ru.png` | 1280×800 |
 | Small promo tile | `promo-small-en.png` | 440×280 |
 | Marquee promo tile (optional) | `promo-marquee-en.png` | 1400×560 |
 
@@ -98,7 +102,7 @@ Shows the user how many times they have personally watched each YouTube video, n
 Stores the user's own view count, first and last view time, title and channel of each watched video locally, so the count can be shown when the video is opened again.
 
 **Host permission justification — `https://www.youtube.com/*`:**
-The content scripts run on YouTube watch pages to detect playback of the main video player and to display the personal view count under the video. No other sites are accessed.
+The content scripts run on YouTube pages to detect playback of the main video player and to display the personal view count under the video and on video cards on the home page and in recommendations. No other sites are accessed.
 
 **Remote code:** No, I am not using remote code. All code is included in the package.
 

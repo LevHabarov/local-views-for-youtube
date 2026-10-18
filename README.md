@@ -4,6 +4,8 @@ A Chrome extension that shows how many times **you** have watched a YouTube vide
 
 > 445 014 707 views **(You: 13 views)** 21 years ago
 
+Videos you have watched also get a short count on their cards on the home page and in the recommendations next to a video: "297K **(You: 3)** • 2 years ago". The counts are blue, so they don't get mixed up with YouTube's own numbers.
+
 Your history never leaves your device: it is kept in the browser's local extension storage, and the extension makes no network requests of its own.
 
 [Русская версия](README.ru.md)
@@ -39,9 +41,9 @@ After rebuilding, click the reload button on the extension's card in `chrome://e
 ### Layout
 
 - `src/bridge/` runs in the page's main world. It listens to `<video>` events of the main player (`#movie_player`), reads the video ID from the player API and forwards playback state to the content script.
-- `src/content/` is the content script (isolated world). It counts views, stores them and draws the badge. All YouTube DOM selectors live in `badge.ts`.
+- `src/content/` is the content script (isolated world). It counts views, stores them and draws the badges: `badge.ts` under the video, `cards.ts` on video cards. The YouTube DOM selectors live at the top of these two files.
 - `src/core/` is pure logic with no browser APIs: view rules (`view-tracker.ts`), records (`storage.ts`), plural forms (`format.ts`).
-- `public/` holds the manifest, locales (`_locales/en`, `_locales/ru`) and icons. The version in the built manifest is taken from `package.json`.
+- `public/` holds the manifest, the badge styles (`styles.css`), locales (`_locales/en`, `_locales/ru`) and icons. The version in the built manifest is taken from `package.json`.
 - `store/` holds the Chrome Web Store listing texts and images.
 
 ## Privacy

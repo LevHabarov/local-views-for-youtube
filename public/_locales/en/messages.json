@@ -14,22 +14,52 @@
   "viewsOne": {
     "message": "You: $COUNT$ view",
     "description": "Badge under the video, plural form 'one'.",
-    "placeholders": { "count": { "content": "$1", "example": "1" } }
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      }
+    }
   },
   "viewsFew": {
     "message": "You: $COUNT$ views",
     "description": "Badge under the video, plural form 'few'.",
-    "placeholders": { "count": { "content": "$1", "example": "3" } }
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
   },
   "viewsMany": {
     "message": "You: $COUNT$ views",
     "description": "Badge under the video, plural form 'many'.",
-    "placeholders": { "count": { "content": "$1", "example": "5" } }
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
   },
   "viewsOther": {
     "message": "You: $COUNT$ views",
     "description": "Badge under the video, plural form 'other'.",
-    "placeholders": { "count": { "content": "$1", "example": "12" } }
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "12"
+      }
+    }
+  },
+  "cardViews": {
+    "message": "You: $COUNT$",
+    "description": "Badge on video cards (home page, recommendations): the user's view count, shown in parentheses.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
   },
   "tooltipNone": {
     "message": "A view counts after 5 seconds of playback",
@@ -39,8 +69,14 @@
     "message": "First view: $FIRST$\nLast view: $LAST$",
     "description": "Tooltip on the badge with the first and last view dates.",
     "placeholders": {
-      "first": { "content": "$1", "example": "Oct 18, 2026, 7:05 PM" },
-      "last": { "content": "$2", "example": "Oct 20, 2026, 9:40 AM" }
+      "first": {
+        "content": "$1",
+        "example": "Oct 18, 2026, 7:05 PM"
+      },
+      "last": {
+        "content": "$2",
+        "example": "Oct 20, 2026, 9:40 AM"
+      }
     }
   }
 }

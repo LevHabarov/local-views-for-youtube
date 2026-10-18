@@ -1,7 +1,7 @@
 // The "You: N views" label under the video on the watch page.
 
-import { formatDateTime, viewsMessageKey } from '../core/format';
 import type { VideoRecord } from '../core/storage';
+import { badgeTooltip, watchBadgeText } from './text';
 
 // YouTube changes its markup often, so every selector we depend on lives here.
 //
@@ -14,13 +14,8 @@ const INFO_CONTAINER = 'ytd-watch-flexy ytd-watch-metadata #info-container';
 const VIEW_COUNT = ':scope > #view-count';
 const INFO_SPANS = ':scope > #info > span';
 
+// Styled in public/styles.css.
 const BADGE_CLASS = 'local-views-badge';
-
-const BADGE_STYLE = [
-  'font-weight: 500',
-  'color: var(--yt-spec-text-primary, inherit)',
-  'white-space: nowrap',
-].join(';');
 
 // Gaps around the badge, matching YouTube's own gap between views and date.
 // In the #view-count layout the view count already ends with a gap and the
@@ -72,22 +67,6 @@ function placeBadge(badge: HTMLElement): boolean {
   return false;
 }
 
-function badgeText(record: VideoRecord | null): string {
-  const count = record?.count ?? 0;
-  if (count === 0) return chrome.i18n.getMessage('viewsNone');
-  const key = viewsMessageKey(chrome.i18n.getUILanguage(), count);
-  return chrome.i18n.getMessage(key, String(count));
-}
-
-function badgeTooltip(record: VideoRecord | null): string {
-  if (!record) return chrome.i18n.getMessage('tooltipNone');
-  const locale = chrome.i18n.getUILanguage();
-  return chrome.i18n.getMessage('tooltipDates', [
-    formatDateTime(locale, record.firstViewedAt),
-    formatDateTime(locale, record.lastViewedAt),
-  ]);
-}
-
 let badge: HTMLElement | null = null;
 let shownRecord: VideoRecord | null = null;
 
@@ -121,12 +100,11 @@ export function showBadge(record: VideoRecord | null): boolean {
   if (!badge) {
     badge = document.createElement('span');
     badge.className = BADGE_CLASS;
-    badge.style.cssText = BADGE_STYLE;
   }
   observe(document.querySelector(INFO_CONTAINER));
   if (!placeBadge(badge)) return false;
 
-  const text = '(' + badgeText(record) + ')';
+  const text = watchBadgeText(record);
   if (badge.textContent !== text) badge.textContent = text;
   const tooltip = badgeTooltip(record);
   if (badge.title !== tooltip) badge.title = tooltip;

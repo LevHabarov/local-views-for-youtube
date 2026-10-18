@@ -1,0 +1,26 @@
+/* Injected into youtube.com with the content script. The blue sets the
+   extension's counts apart from YouTube's own text; it is not YouTube's link
+   blue, so the counts do not look clickable. YouTube marks its dark theme
+   with the `dark` attribute on <html>. */
+
+:root {
+  --local-views-color: #2563eb;
+}
+
+html[dark] {
+  --local-views-color: #60a5fa;
+}
+
+.local-views-badge,
+.local-views-card-badge {
+  color: var(--local-views-color);
+  white-space: nowrap;
+}
+
+.local-views-badge {
+  font-weight: 500;
+}
+
+.local-views-card-badge {
+  margin-inline-start: 0.25em;
+}

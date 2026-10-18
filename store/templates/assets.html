@@ -39,8 +39,9 @@
   .title-bar { height: 22px; width: 55%; background: #3f3f3f; border-radius: 6px; margin: 22px 0 18px; }
   .desc { background: var(--card); border-radius: 14px; padding: 18px 20px; font-size: 22px; font-weight: 500; position: relative; }
   .desc .line2 { height: 14px; width: 70%; background: #3f3f3f; border-radius: 4px; margin-top: 16px; }
+  /* Same blue as the extension uses on YouTube's dark theme (public/styles.css). */
   .badge {
-    color: #fff; padding: 2px 8px; margin: 0 4px; border-radius: 8px;
+    color: #60a5fa; padding: 2px 8px; margin: 0 4px; border-radius: 8px;
     outline: 3px solid var(--accent-soft); outline-offset: 2px;
     background: rgba(37, 99, 235, .25);
   }
@@ -51,6 +52,16 @@
     padding: 10px 14px; border-radius: 6px; line-height: 1.5; white-space: pre;
     box-shadow: 0 8px 24px rgba(0,0,0,.4);
   }
+
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; width: 1120px; }
+  .card .thumb { height: 196px; border-radius: 14px; background: linear-gradient(135deg, #3f3f46, #18181b); }
+  .card:nth-child(2) .thumb { background: linear-gradient(135deg, #334155, #0f172a); }
+  .card:nth-child(3) .thumb { background: linear-gradient(135deg, #44403c, #1c1917); }
+  .card .t1 { height: 20px; width: 90%; background: #3f3f3f; border-radius: 5px; margin: 18px 0 10px; }
+  .card .t2 { height: 20px; width: 60%; background: #3f3f3f; border-radius: 5px; margin-bottom: 14px; }
+  .card .meta { font-size: 20px; color: var(--muted); white-space: nowrap; }
+  .card .meta .you { color: #60a5fa; }
+  .card.plain .meta .you { display: none; }
 
   .rules { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; width: 1060px; }
   .rules li { background: var(--card); border-radius: 16px; padding: 26px 28px; font-size: 24px; line-height: 1.35; }
@@ -89,6 +100,21 @@
   </div>
 </section>
 
+<section class="asset shot" id="screenshot-cards">
+  <div>
+    <h1 class="headline" data-t="cardsHeadline"></h1>
+    <p class="sub" data-t="cardsSub"></p>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="thumb"></div><div class="t1"></div><div class="t2"></div>
+      <div class="meta">&#9655; <span data-t="card1Views"></span> <span class="you" data-t="card1You"></span> &bull; <span data-t="card1Date"></span></div></div>
+    <div class="card plain"><div class="thumb"></div><div class="t1"></div><div class="t2"></div>
+      <div class="meta">&#9655; <span data-t="card2Views"></span> <span class="you"></span> &bull; <span data-t="card2Date"></span></div></div>
+    <div class="card"><div class="thumb"></div><div class="t1"></div><div class="t2"></div>
+      <div class="meta">&#9655; <span data-t="card3Views"></span> <span class="you" data-t="card3You"></span> &bull; <span data-t="card3Date"></span></div></div>
+  </div>
+</section>
+
 <section class="asset shot" id="screenshot-rules">
   <h1 class="headline" data-t="rulesHeadline"></h1>
   <ul class="rules">
@@ -118,6 +144,11 @@
       badge: '(You: 3 views)',
       date: '2 years ago',
       tooltip: 'First view: Mar 2, 2026, 7:05 PM\nLast view: Oct 18, 2026, 9:40 AM',
+      cardsHeadline: 'Spot what you’ve already seen',
+      cardsSub: 'Your count also shows on the home page and in recommendations',
+      card1Views: '297K', card1You: '(You: 3)', card1Date: '2 years ago',
+      card2Views: '1.2M', card2Date: '1 month ago',
+      card3Views: '48K', card3You: '(You: 1)', card3Date: '5 days ago',
       rulesHeadline: 'Honest counting, private by design',
       rule1Title: '5 seconds = a view',
       rule1: 'Only real playback counts. Seeking, pauses and ads don’t.',
@@ -136,6 +167,11 @@
       badge: '(Вы: 3 просмотра)',
       date: '2 года назад',
       tooltip: 'Первый просмотр: 2 мар. 2026 г., 19:05\nПоследний просмотр: 18 окт. 2026 г., 09:40',
+      cardsHeadline: 'Сразу видно, что вы уже смотрели',
+      cardsSub: 'Счётчик есть и на главной странице, и в рекомендациях',
+      card1Views: '297 тыс.', card1You: '(Вы: 3)', card1Date: '2 г. назад',
+      card2Views: '1,2 млн', card2Date: '1 мес. назад',
+      card3Views: '48 тыс.', card3You: '(Вы: 1)', card3Date: '5 дн. назад',
       rulesHeadline: 'Честный подсчёт и полная приватность',
       rule1Title: '5 секунд — просмотр',
       rule1: 'Считается только реальное воспроизведение. Перемотка, пауза и реклама — нет.',

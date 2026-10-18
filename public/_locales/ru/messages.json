@@ -10,19 +10,43 @@
   },
   "viewsOne": {
     "message": "Вы: $COUNT$ просмотр",
-    "placeholders": { "count": { "content": "$1" } }
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "viewsFew": {
     "message": "Вы: $COUNT$ просмотра",
-    "placeholders": { "count": { "content": "$1" } }
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "viewsMany": {
     "message": "Вы: $COUNT$ просмотров",
-    "placeholders": { "count": { "content": "$1" } }
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "viewsOther": {
     "message": "Вы: $COUNT$ просмотра",
-    "placeholders": { "count": { "content": "$1" } }
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "cardViews": {
+    "message": "Вы: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1"
+      }
+    }
   },
   "tooltipNone": {
     "message": "Просмотр засчитывается после 5 секунд воспроизведения"
@@ -30,8 +54,12 @@
   "tooltipDates": {
     "message": "Первый просмотр: $FIRST$\nПоследний просмотр: $LAST$",
     "placeholders": {
-      "first": { "content": "$1" },
-      "last": { "content": "$2" }
+      "first": {
+        "content": "$1"
+      },
+      "last": {
+        "content": "$2"
+      }
     }
   }
 }

@@ -30,6 +30,14 @@ export async function getRecord(videoId: string): Promise<VideoRecord | null> {
   return (items[key] as VideoRecord | undefined) ?? null;
 }
 
+/** Records for several videos in one read; missing videos map to null. */
+export async function getRecords(videoIds: string[]): Promise<Map<string, VideoRecord | null>> {
+  const items = await chrome.storage.local.get(videoIds.map(recordKey));
+  return new Map(
+    videoIds.map((id) => [id, (items[recordKey(id)] as VideoRecord | undefined) ?? null]),
+  );
+}
+
 export function applyView(
   previous: VideoRecord | null,
   meta: VideoMeta,
