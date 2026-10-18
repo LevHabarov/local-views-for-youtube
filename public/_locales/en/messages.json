@@ -1,0 +1,46 @@
+{
+  "extName": {
+    "message": "Local Views for YouTube",
+    "description": "Extension name. Keep 'YouTube' after the product name (trademark guidelines)."
+  },
+  "extDescription": {
+    "message": "Shows how many times you have watched each video. Your history stays on your device.",
+    "description": "Extension description in the Chrome Web Store, max 132 characters."
+  },
+  "viewsNone": {
+    "message": "You haven't watched it yet",
+    "description": "Badge under the video when the user has never watched it."
+  },
+  "viewsOne": {
+    "message": "You: $COUNT$ view",
+    "description": "Badge under the video, plural form 'one'.",
+    "placeholders": { "count": { "content": "$1", "example": "1" } }
+  },
+  "viewsFew": {
+    "message": "You: $COUNT$ views",
+    "description": "Badge under the video, plural form 'few'.",
+    "placeholders": { "count": { "content": "$1", "example": "3" } }
+  },
+  "viewsMany": {
+    "message": "You: $COUNT$ views",
+    "description": "Badge under the video, plural form 'many'.",
+    "placeholders": { "count": { "content": "$1", "example": "5" } }
+  },
+  "viewsOther": {
+    "message": "You: $COUNT$ views",
+    "description": "Badge under the video, plural form 'other'.",
+    "placeholders": { "count": { "content": "$1", "example": "12" } }
+  },
+  "tooltipNone": {
+    "message": "A view counts after 5 seconds of playback",
+    "description": "Tooltip on the badge when the video has no views yet."
+  },
+  "tooltipDates": {
+    "message": "First view: $FIRST$\nLast view: $LAST$",
+    "description": "Tooltip on the badge with the first and last view dates.",
+    "placeholders": {
+      "first": { "content": "$1", "example": "Oct 18, 2026, 7:05 PM" },
+      "last": { "content": "$2", "example": "Oct 20, 2026, 9:40 AM" }
+    }
+  }
+}

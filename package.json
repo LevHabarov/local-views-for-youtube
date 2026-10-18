@@ -1,0 +1,19 @@
+{
+  "name": "local-views-for-youtube",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome extension that counts how many times you personally watched each YouTube video. All data stays on your device.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "icons": "node scripts/gen-icons.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.3.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  }
+}

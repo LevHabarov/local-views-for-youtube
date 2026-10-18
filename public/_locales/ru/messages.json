@@ -1,0 +1,37 @@
+{
+  "extName": {
+    "message": "Local Views for YouTube"
+  },
+  "extDescription": {
+    "message": "Показывает, сколько раз вы смотрели каждое видео. История хранится только на вашем устройстве."
+  },
+  "viewsNone": {
+    "message": "Вы ещё не смотрели"
+  },
+  "viewsOne": {
+    "message": "Вы: $COUNT$ просмотр",
+    "placeholders": { "count": { "content": "$1" } }
+  },
+  "viewsFew": {
+    "message": "Вы: $COUNT$ просмотра",
+    "placeholders": { "count": { "content": "$1" } }
+  },
+  "viewsMany": {
+    "message": "Вы: $COUNT$ просмотров",
+    "placeholders": { "count": { "content": "$1" } }
+  },
+  "viewsOther": {
+    "message": "Вы: $COUNT$ просмотра",
+    "placeholders": { "count": { "content": "$1" } }
+  },
+  "tooltipNone": {
+    "message": "Просмотр засчитывается после 5 секунд воспроизведения"
+  },
+  "tooltipDates": {
+    "message": "Первый просмотр: $FIRST$\nПоследний просмотр: $LAST$",
+    "placeholders": {
+      "first": { "content": "$1" },
+      "last": { "content": "$2" }
+    }
+  }
+}
